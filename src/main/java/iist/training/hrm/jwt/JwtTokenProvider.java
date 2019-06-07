@@ -1,6 +1,5 @@
 package iist.training.hrm.jwt;
 
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.Date;
 
@@ -13,13 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import iist.training.hrm.model.Account;
-import iist.training.hrm.model.Role;
 import iist.training.hrm.service.AccountService;
 import iist.training.hrm.utils.Constants;
 import io.jsonwebtoken.Claims;
@@ -70,9 +66,7 @@ public class JwtTokenProvider {
 
 	public Authentication getAuthentication(String token) {
 		UserDetails userDetails = accountService.getAccountInfo(getUsername(token));
-		Role role = ((Account) userDetails).getRole();
-		return new UsernamePasswordAuthenticationToken(userDetails, "",
-				Arrays.asList(new SimpleGrantedAuthority("ROLE_" + role.getRoleName())));
+		return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 	}
 
 	public String getUsername(String token) {

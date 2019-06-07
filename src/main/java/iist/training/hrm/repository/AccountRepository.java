@@ -9,7 +9,7 @@ import iist.training.hrm.model.Account;
 
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Integer> {
-	Account findByUserNameAndPassword(String userName, String password);
+	Account findByUsernameAndPassword(String username, String password);
 	
 	@Query("select acc from Account acc where acc.username = :username")
 	Account getAccounInfo(@Param("username") String username);

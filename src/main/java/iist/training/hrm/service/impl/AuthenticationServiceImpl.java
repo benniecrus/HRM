@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
 
 import iist.training.hrm.dto.request.AuthenticationRequestDto;
 import iist.training.hrm.dto.response.AuthenticationResponseDto;
@@ -13,6 +13,7 @@ import iist.training.hrm.jwt.JwtTokenProvider;
 import iist.training.hrm.model.Account;
 import iist.training.hrm.service.AuthenticationService;
 
+@Service
 public class AuthenticationServiceImpl implements AuthenticationService {
 
 	@Autowired
@@ -30,9 +31,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		
 		Account account = (Account)authentication.getPrincipal();
 		
-		String token = jwtTokenProvider.createToken(authenticationRequestDto.getUsername(), authenticationRequestDto);
+		String token = jwtTokenProvider.createToken(account.getUsername(), account.getRole().getRoleName());
 		
-		return null;
+		AuthenticationResponseDto authenticationResponseDto = new AuthenticationResponseDto();
+		
+		authenticationResponseDto.setToken(token);
+		authenticationResponseDto.setUsername(account.getUsername());
+		
+		return authenticationResponseDto;
 	}
 	
 }
