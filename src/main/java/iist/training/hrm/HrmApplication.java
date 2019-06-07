@@ -1,4 +1,4 @@
-package iist.training.HRM;
+package iist.training.hrm;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

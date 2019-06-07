@@ -1,4 +1,4 @@
-package iist.training.HRM;
+package iist.training.hrm;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
