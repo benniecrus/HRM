@@ -1,10 +1,14 @@
 package iist.training.hrm.service.impl;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import iist.training.hrm.dto.AccountDto;
 import iist.training.hrm.mapping.AccountMapping;
@@ -16,6 +20,7 @@ import iist.training.hrm.service.AccountService;
 import iist.training.hrm.utils.Constants;
 
 @Service
+@Transactional
 public class AccountServiceImpl implements AccountService {
 
 	@Autowired
@@ -28,8 +33,8 @@ public class AccountServiceImpl implements AccountService {
 	private PasswordEncoder passwordEncoder;
 	
 	@Override
-	public AccountDto getAccountByUsernameAndPassword(String username, String password) {
-		Account account = accountRepository.findByUsernameAndPassword(username, password);
+	public AccountDto getAccountByUsername(String username) {
+		Account account = accountRepository.getAccounInfo(username);
 		
 		return AccountMapping.accountMapping(account);
 	}
@@ -41,6 +46,7 @@ public class AccountServiceImpl implements AccountService {
 		return accountDto;
 	}
 	
+	@Override
 	public AccountDto addNewAccount(String username, String password) {
 		Account account = new Account();
 		account.setUsername(username);
@@ -48,7 +54,10 @@ public class AccountServiceImpl implements AccountService {
 		
 		Role role = roleRepository.findByRoleName(Constants.ROLE_USER);
 		
-		account.setRole(role);
+		Set<Role> roles = new HashSet<Role>();
+		roles.add(role);
+		
+		account.setRoles(roles);
 		
 		account = accountRepository.saveAndFlush(account);
 		

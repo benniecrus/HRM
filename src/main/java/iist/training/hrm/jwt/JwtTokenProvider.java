@@ -2,6 +2,7 @@ package iist.training.hrm.jwt;
 
 import java.util.Base64;
 import java.util.Date;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import iist.training.hrm.model.Role;
 import iist.training.hrm.service.AccountService;
 import iist.training.hrm.utils.Constants;
 import io.jsonwebtoken.Claims;
@@ -45,9 +47,9 @@ public class JwtTokenProvider {
 		secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
 	}
 
-	public String createToken(String username, String role) {
+	public String createToken(String username, Set<Role> roles) {
 		Claims claims = Jwts.claims().setSubject(username);
-		claims.put("role", role);
+		claims.put("roles", roles);
 		Date now = new Date();
 		Date validity = new Date(now.getTime() + expiredTime);
 		return Jwts.builder()

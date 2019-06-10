@@ -1,17 +1,15 @@
 package iist.training.hrm.dto;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import iist.training.hrm.model.Account;
+import iist.training.hrm.model.Role;
 
 public class AccountDto implements Serializable, UserDetails {
 	private static final long serialVersionUID = 1L;
@@ -22,8 +20,8 @@ public class AccountDto implements Serializable, UserDetails {
 
 	@JsonIgnore
 	private String password;
-
-	private String roleName;
+	
+	private Set<Role> roles;
 
 	private Collection<? extends GrantedAuthority> authorities;
 
@@ -31,21 +29,12 @@ public class AccountDto implements Serializable, UserDetails {
 
 	}
 
-	public AccountDto(int accountId, String username, String password, String roleName,
+	public AccountDto(int accountId, String username, String password,
 			Collection<? extends GrantedAuthority> authorities) {
 		this.accountId = accountId;
 		this.username = username;
 		this.password = password;
-		this.roleName = roleName;
 		this.authorities = authorities;
-	}
-
-	public String getRoleName() {
-		return roleName;
-	}
-
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
 	}
 
 	public void setUsername(String username) {
@@ -101,5 +90,13 @@ public class AccountDto implements Serializable, UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return true;
+	}
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
 	}
 }

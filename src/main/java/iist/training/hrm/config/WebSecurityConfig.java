@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import iist.training.hrm.jwt.JwtTokenFilter;
+import iist.training.hrm.utils.Constants;
 
 @Configuration
 @EnableWebSecurity
@@ -40,8 +41,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()
 			.authorizeRequests()
-			.antMatchers("/api/account/register").permitAll()
+			.antMatchers("/api/account/*").permitAll()
 			.antMatchers("/api/auth/login").permitAll()
+			.antMatchers("/api/manage/*").hasAnyRole(Constants.ROLE_ADMIN)
 			.anyRequest().authenticated()
 			.and().httpBasic().disable()
 			.csrf().disable();

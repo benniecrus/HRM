@@ -22,9 +22,8 @@ public class AccountApi {
 	AccountService accountService;
 
 	@GetMapping("/getaccount")
-	public AccountDto getAccount(@RequestParam(name = "userName", required = true) String userName,
-			@RequestParam(name = "password", required = true) String password) {
-		AccountDto account = accountService.getAccountByUsernameAndPassword(userName, password);
+	public AccountDto getAccount(@RequestParam(name = "username", required = true) String username) {
+		AccountDto account = accountService.getAccountByUsername(username);
 		return account;
 	}
 	
@@ -34,7 +33,6 @@ public class AccountApi {
 		AccountDto account = accountService.addNewAccount(registerRequestDto.getUsername(), registerRequestDto.getPassword());
 		
 		return new ResponseEntity<AccountDto>(account, HttpStatus.OK);
-		
 	}
 	
 }
