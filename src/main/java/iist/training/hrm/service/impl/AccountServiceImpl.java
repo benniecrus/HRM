@@ -6,6 +6,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import iist.training.hrm.dto.AccountDto;
+import iist.training.hrm.mapping.AccountMapping;
 import iist.training.hrm.model.Account;
 import iist.training.hrm.model.Role;
 import iist.training.hrm.repository.AccountRepository;
@@ -26,18 +28,20 @@ public class AccountServiceImpl implements AccountService {
 	private PasswordEncoder passwordEncoder;
 	
 	@Override
-	public Account getAccountByUsernameAndPassword(String username, String password) {
+	public AccountDto getAccountByUsernameAndPassword(String username, String password) {
 		Account account = accountRepository.findByUsernameAndPassword(username, password);
-		return account;
+		
+		return AccountMapping.accountMapping(account);
 	}
 
 	@Override
-	public Account getAccountInfo(String username) {
+	public AccountDto getAccountInfo(String username) {
 		Account account = accountRepository.getAccounInfo(username);
-		return account;
+		AccountDto accountDto = AccountMapping.buildAccountAuth(account);
+		return accountDto;
 	}
 	
-	public Account addNewAccount(String username, String password) {
+	public AccountDto addNewAccount(String username, String password) {
 		Account account = new Account();
 		account.setUsername(username);
 		account.setPassword(passwordEncoder.encode(password));
@@ -48,13 +52,13 @@ public class AccountServiceImpl implements AccountService {
 		
 		account = accountRepository.saveAndFlush(account);
 		
-		return account;
+		return AccountMapping.accountMapping(account);
 	}
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Account account = accountRepository.getAccounInfo(username);
-		return account;
+		return AccountMapping.buildAccountAuth(account);
 	}
 	
 }

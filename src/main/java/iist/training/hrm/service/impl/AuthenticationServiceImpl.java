@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import iist.training.hrm.dto.AccountDto;
 import iist.training.hrm.dto.request.AuthenticationRequestDto;
 import iist.training.hrm.dto.response.AuthenticationResponseDto;
 import iist.training.hrm.jwt.JwtTokenProvider;
@@ -24,14 +25,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	
 	@Override
 	public AuthenticationResponseDto authenticateUser(AuthenticationRequestDto authenticationRequestDto) {
-		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-				authenticationRequestDto.getUsername(), authenticationRequestDto.getPassword()));
+		
+		UsernamePasswordAuthenticationToken user = new UsernamePasswordAuthenticationToken(authenticationRequestDto.getUsername(), authenticationRequestDto.getPassword());
+		
+		Authentication authentication = authenticationManager.authenticate(user);
 		
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		
-		Account account = (Account)authentication.getPrincipal();
+		AccountDto account = (AccountDto)authentication.getPrincipal();
 		
-		String token = jwtTokenProvider.createToken(account.getUsername(), account.getRole().getRoleName());
+		String token = jwtTokenProvider.createToken(account.getUsername(), account.getRoleName());
 		
 		AuthenticationResponseDto authenticationResponseDto = new AuthenticationResponseDto();
 		

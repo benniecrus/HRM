@@ -8,4 +8,10 @@ public class Constants {
 	public static final String AUTHORIZATION_STRING = "Authorization";
     public static final String TOKEN_PREFIX = "Bearer";
     
+    public static final String MESSAGE_INVALID_USERNAME_PASSWORD = "Invalid Username/Password!";
+    
+    public static final int BAD_REQUEST_STATUS = 403;
+    
+    public static final String SUCCESS = "SUCCESS";
+    
 }

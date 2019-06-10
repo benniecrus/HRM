@@ -1,8 +1,6 @@
 package iist.training.hrm.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,12 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
 @Entity
 @Table(name = "Account")
-public class Account implements Serializable, UserDetails {
+public class Account implements Serializable {
 	private static final long serialVersionUID = 552500148256073408L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -60,33 +55,8 @@ public class Account implements Serializable, UserDetails {
 		this.role = role;
 	}
 
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return new ArrayList<>();
-	}
-
-	@Override
 	public String getUsername() {
 		return username;
 	}
 
-	@Override
-	public boolean isAccountNonExpired() {
-		return true;
-	}
-
-	@Override
-	public boolean isAccountNonLocked() {
-		return true;
-	}
-
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return true;
-	}
-
-	@Override
-	public boolean isEnabled() {
-		return true;
-	}
 }

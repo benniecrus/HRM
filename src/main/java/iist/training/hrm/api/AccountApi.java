@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import iist.training.hrm.dto.AccountDto;
 import iist.training.hrm.dto.request.RegisterRequestDto;
-import iist.training.hrm.model.Account;
 import iist.training.hrm.service.AccountService;
 
 @RestController
@@ -22,18 +22,18 @@ public class AccountApi {
 	AccountService accountService;
 
 	@GetMapping("/getaccount")
-	public Account getAccount(@RequestParam(name = "userName", required = true) String userName,
+	public AccountDto getAccount(@RequestParam(name = "userName", required = true) String userName,
 			@RequestParam(name = "password", required = true) String password) {
-		Account account = accountService.getAccountByUsernameAndPassword(userName, password);
+		AccountDto account = accountService.getAccountByUsernameAndPassword(userName, password);
 		return account;
 	}
 	
 	
 	@PostMapping("/register")
 	public ResponseEntity<?> registerAccount(@RequestBody(required = true) RegisterRequestDto registerRequestDto) {
-		Account account = accountService.addNewAccount(registerRequestDto.getUsername(), registerRequestDto.getPassword());
+		AccountDto account = accountService.addNewAccount(registerRequestDto.getUsername(), registerRequestDto.getPassword());
 		
-		return new ResponseEntity<Account>(account, HttpStatus.OK);
+		return new ResponseEntity<AccountDto>(account, HttpStatus.OK);
 		
 	}
 	
