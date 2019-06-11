@@ -5,23 +5,25 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 public class NewEmployeeDto {
-	@NotBlank
-	@Pattern(regexp = "([a-zA-Z]+)")
+	@NotBlank(message = "First name must be not blank!")
+	@Pattern(regexp = "([a-zA-Z]+)", message = "First name must be charaters.")
 	private String firstName;
-	@NotBlank
-	@Pattern(regexp = "([a-zA-Z\\s]+)")
+	@NotBlank(message = "Last name must be not blank!")
+	@Pattern(regexp = "([a-zA-Z\\s]+)", message = "First name must be charaters.")
 	private String lastName;
-	@NotBlank
-	@Pattern(regexp = "([0-9]{10})")
+	@NotBlank(message = "Phone number must be not blank!")
+	@Pattern(regexp = "([0-9]{10})", message = "Phone number must be 10 number.")
 	private String phoneNumber;
-	@Min( value = 0)
+	@Min(value = 0, message = "Salary must be positive.")
 	private double salary;
-	@Pattern(regexp = "[0-1][0-9]\\/[0-3][0-9]\\/[1-2][0-9]{3}")
+	@NotBlank(message = "DOB must be not blank!")
+	@Pattern(regexp = "[0-1][0-9]\\/[0-3][0-9]\\/[1-2][0-9]{3}", message = "DOB must have format dd/MM/yyyy")
 	private String dob;
-	@NotBlank
+	@NotBlank(message = "Address must be not blank!")
 	private String address;
-	@NotBlank
+	@NotBlank(message = "Country must be not blank!")
 	private String countryCode;
+	private int positionId;
 
 	public String getFirstName() {
 		return firstName;
@@ -77,6 +79,14 @@ public class NewEmployeeDto {
 
 	public void setCountryCode(String countryCode) {
 		this.countryCode = countryCode;
+	}
+
+	public int getPositionId() {
+		return positionId;
+	}
+
+	public void setPositionId(int positionId) {
+		this.positionId = positionId;
 	}
 
 }

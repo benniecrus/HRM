@@ -1,18 +1,13 @@
 package iist.training.hrm.exception;
 
-import java.util.List;
-
-import javax.xml.bind.annotation.XmlRootElement;
-
-@XmlRootElement(name = "error")
 public class ErrorResponse {
+	private String errorCode;
 	private String message;
-	private List<String> details;
 
-	public ErrorResponse(String message, List<String> details) {
+	public ErrorResponse(String message, String errorCode) {
 		super();
 		this.message = message;
-		this.details = details;
+		this.errorCode = errorCode;
 	}
 
 	public String getMessage() {
@@ -23,12 +18,12 @@ public class ErrorResponse {
 		this.message = message;
 	}
 
-	public List<String> getDetails() {
-		return details;
+	public String getErrorCode() {
+		return errorCode;
 	}
 
-	public void setDetails(List<String> details) {
-		this.details = details;
+	public void setErrorCode(String errorCode) {
+		this.errorCode = errorCode;
 	}
 
 }

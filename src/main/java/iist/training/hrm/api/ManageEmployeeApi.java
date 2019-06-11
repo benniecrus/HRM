@@ -1,5 +1,6 @@
 package iist.training.hrm.api;
 
+import java.text.ParseException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,14 +31,16 @@ public class ManageEmployeeApi {
 
 	@PostMapping("/add-employee")
 	public ResponseEntity<ResponseDto<EmployeeDto>> addEmployee(HttpServletRequest request,
-			@RequestBody(required = true) @Valid NewEmployeeDto newEmployee) {
+			@RequestBody(required = true) @Valid NewEmployeeDto newEmployee) throws ParseException {
 		ResponseDto<EmployeeDto> response = new ResponseDto<EmployeeDto>();
 
 		if (StringUtils.isEmpty(request.getHeader(Constants.AUTHORIZATION_HEADER_NAME))) {
 			
 		}
 		
-//		employeeService.addEmployee(newEmployee);
+		EmployeeDto employeeDto = employeeService.addEmployee(newEmployee);
+		response.setContent(employeeDto);
+		response.setMessage("Success");
 
 		return new ResponseEntity<ResponseDto<EmployeeDto>>(response, HttpStatus.OK);
 	}
