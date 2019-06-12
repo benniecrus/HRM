@@ -12,4 +12,6 @@ public interface AccountRepository extends JpaRepository<Account, Integer> {
 	@Query("select acc from Account acc where acc.username = :username")
 	Account getAccounInfo(@Param("username") String username);
 	
+	@Query("select count(acc.accountId) from Account acc where acc.accountName = :accountName")
+	int countNumberAccountName(@Param("accountName") String accountName);
 }

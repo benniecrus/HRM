@@ -11,7 +11,6 @@ import iist.training.hrm.dto.AccountDto;
 import iist.training.hrm.dto.request.AuthenticationRequestDto;
 import iist.training.hrm.dto.response.AuthenticationResponseDto;
 import iist.training.hrm.jwt.JwtTokenProvider;
-import iist.training.hrm.model.Account;
 import iist.training.hrm.service.AuthenticationService;
 
 @Service

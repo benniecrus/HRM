@@ -16,6 +16,7 @@ public class EmployeeMapping {
 		employee.setCountryCode(newEmployeeDto.getCountryCode());
 		employee.setDbo(DateFormatUtils.convertStringToDate(newEmployeeDto.getDob()));
 		employee.setFirstName(newEmployeeDto.getFirstName());
+		employee.setAddress(newEmployeeDto.getAddress());
 		
 		return employee;
 	}

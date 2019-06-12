@@ -1,8 +1,11 @@
 package iist.training.hrm.api;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,8 +14,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import iist.training.hrm.dto.AccountDto;
-import iist.training.hrm.dto.request.RegisterRequestDto;
+import iist.training.hrm.dto.ChangePasswordDto;
+import iist.training.hrm.dto.response.ResponseDto;
+import iist.training.hrm.exception.ProductException;
 import iist.training.hrm.service.AccountService;
+import iist.training.hrm.utils.Constants;
 
 @RestController
 @RequestMapping("/api/account")
@@ -27,12 +33,16 @@ public class AccountApi {
 		return account;
 	}
 	
-	
-	@PostMapping("/register")
-	public ResponseEntity<?> registerAccount(@RequestBody(required = true) RegisterRequestDto registerRequestDto) {
-		AccountDto account = accountService.addNewAccount(registerRequestDto.getUsername(), registerRequestDto.getPassword());
+	@PostMapping("/change-password")
+	public ResponseEntity<ResponseDto<AccountDto>> changePassword(HttpServletRequest request, @RequestBody ChangePasswordDto changePasswordDto) {
+		ResponseDto<AccountDto> responseDto = new ResponseDto<AccountDto>();
 		
-		return new ResponseEntity<AccountDto>(account, HttpStatus.OK);
+		if (StringUtils.isEmpty(request.getHeader(Constants.AUTHORIZATION_STRING))) {
+			throw new ProductException("Token must be not null");
+		}
+		
+		String token = request.getHeader(Constants.AUTHORIZATION_STRING).replace(Constants.TOKEN_PREFIX, "").trim();
+		
+		return new ResponseEntity<ResponseDto<AccountDto>>(responseDto, HttpStatus.OK);
 	}
-	
 }

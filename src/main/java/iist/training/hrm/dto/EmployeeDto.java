@@ -10,6 +10,7 @@ public class EmployeeDto {
 	private Date dob;
 	private String address;
 	private String countryCode;
+	private AccountDto accountDto;
 
 	public String getFirstName() {
 		return firstName;
@@ -66,4 +67,13 @@ public class EmployeeDto {
 	public void setCountryCode(String countryCode) {
 		this.countryCode = countryCode;
 	}
+
+	public AccountDto getAccountDto() {
+		return accountDto;
+	}
+
+	public void setAccountDto(AccountDto accountDto) {
+		this.accountDto = accountDto;
+	}
+	
 }
