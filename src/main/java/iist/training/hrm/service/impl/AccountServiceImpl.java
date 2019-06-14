@@ -9,9 +9,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import iist.training.hrm.dto.AccountDto;
+import iist.training.hrm.dto.ChangePasswordDto;
 import iist.training.hrm.exception.ProductException;
+import iist.training.hrm.jwt.JwtTokenProvider;
 import iist.training.hrm.mapping.AccountMapping;
 import iist.training.hrm.model.Account;
 import iist.training.hrm.model.AccountStatus;
@@ -22,6 +25,7 @@ import iist.training.hrm.repository.RoleRepository;
 import iist.training.hrm.service.AccountService;
 import iist.training.hrm.utils.CharaterUtils;
 import iist.training.hrm.utils.Constants;
+import io.jsonwebtoken.Claims;
 
 @Service
 @Transactional
@@ -35,6 +39,9 @@ public class AccountServiceImpl implements AccountService {
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private JwtTokenProvider jwtTokenProvider;
 	
 	@Override
 	public AccountDto getAccountByUsername(String username) {
@@ -110,6 +117,37 @@ public class AccountServiceImpl implements AccountService {
 			employeeName.append(s.charAt(0));
 		}
 		return employeeName.toString();
+	}
+
+	@Override
+	public AccountDto changePassword(ChangePasswordDto changePasswordDto, String token) {
+		
+		Claims claim = jwtTokenProvider.getClaimsFromToken(token);
+		String username = claim.getSubject();
+		
+		if(!changePasswordDto.getUsername().equalsIgnoreCase(username)) {
+			throw new ProductException("Change password is failed");
+		}
+		
+		Account account = accountRepository.getAccounInfo(username);
+		
+		if(account == null) {
+			throw new ProductException("Username is not valid");
+		}
+		
+		if(!passwordEncoder.matches(changePasswordDto.getOldPassword(), account.getPassword())) {
+			throw new ProductException("Old password is not valid");
+		}
+		
+		account.setPassword(changePasswordDto.getNewPassword());
+		
+		account = accountRepository.saveAndFlush(account);
+		
+		if(account == null) {
+			throw new ProductException("Change password is failed");
+		}
+		
+		return AccountMapping.accountMapping(account);
 	}
 	
 }

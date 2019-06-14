@@ -1,8 +1,16 @@
 package iist.training.hrm.dto;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 public class ChangePasswordDto {
+	@NotBlank
 	private String username;
+	@NotBlank
+	@Size(min = 6, max = 20)
 	private String oldPassword;
+	@NotBlank
+	@Size(min = 6, max = 20)
 	private String newPassword;
 
 	public String getUsername() {

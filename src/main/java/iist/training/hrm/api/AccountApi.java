@@ -43,6 +43,11 @@ public class AccountApi {
 		
 		String token = request.getHeader(Constants.AUTHORIZATION_STRING).replace(Constants.TOKEN_PREFIX, "").trim();
 		
+		AccountDto accountDto = accountService.changePassword(changePasswordDto, token);
+		
+		responseDto.setContent(accountDto);
+		responseDto.setMessage("Success");
+		
 		return new ResponseEntity<ResponseDto<AccountDto>>(responseDto, HttpStatus.OK);
 	}
 }
