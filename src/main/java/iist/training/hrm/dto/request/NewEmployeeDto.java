@@ -1,4 +1,4 @@
-package iist.training.hrm.dto;
+package iist.training.hrm.dto.request;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;

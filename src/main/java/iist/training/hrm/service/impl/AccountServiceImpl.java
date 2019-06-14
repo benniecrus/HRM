@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import iist.training.hrm.dto.AccountDto;
-import iist.training.hrm.dto.ChangePasswordDto;
+import iist.training.hrm.dto.request.ChangePasswordDto;
 import iist.training.hrm.exception.ProductException;
 import iist.training.hrm.jwt.JwtTokenProvider;
 import iist.training.hrm.mapping.AccountMapping;

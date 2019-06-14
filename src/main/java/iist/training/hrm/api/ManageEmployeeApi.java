@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import iist.training.hrm.dto.EmployeeDto;
-import iist.training.hrm.dto.NewEmployeeDto;
+import iist.training.hrm.dto.request.NewEmployeeDto;
 import iist.training.hrm.dto.response.ResponseDto;
 import iist.training.hrm.service.EmployeeService;
 

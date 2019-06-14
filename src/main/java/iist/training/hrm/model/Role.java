@@ -13,10 +13,12 @@ public class Role {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int roleId;
-	
+
 	@Column(name = "role_name")
 	private String roleName;
 
+	@Column(name = "role_description")
+	private String description;
 
 	public int getRoleId() {
 		return roleId;
@@ -34,5 +36,12 @@ public class Role {
 		this.roleName = roleName;
 	}
 
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
 }

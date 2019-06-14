@@ -1,5 +1,6 @@
 package iist.training.hrm.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -13,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import iist.training.hrm.jwt.JwtAuthEntryPoint;
 import iist.training.hrm.jwt.JwtTokenFilter;
 import iist.training.hrm.utils.Constants;
 
@@ -36,6 +38,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		return new BCryptPasswordEncoder();
 	}
 	
+	@Bean
+	public JwtAuthEntryPoint jwtAuthEntryPoint() {
+		return new JwtAuthEntryPoint();
+	}
+	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -44,6 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/api/account/*").permitAll()
 			.antMatchers("/api/auth/login").permitAll()
 			.antMatchers("/api/manage/*").hasAnyRole(Constants.ROLE_ADMIN)
+			.antMatchers("/api/admin/*").hasAnyRole(Constants.ROLE_ADMIN)
 			.anyRequest().authenticated()
 			.and().httpBasic().disable()
 			.csrf().disable();

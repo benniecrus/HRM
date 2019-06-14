@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import iist.training.hrm.dto.AccountDto;
-import iist.training.hrm.dto.ChangePasswordDto;
+import iist.training.hrm.dto.request.ChangePasswordDto;
 import iist.training.hrm.dto.response.ResponseDto;
 import iist.training.hrm.exception.ProductException;
 import iist.training.hrm.service.AccountService;

@@ -3,7 +3,7 @@ package iist.training.hrm.mapping;
 import java.text.ParseException;
 
 import iist.training.hrm.dto.EmployeeDto;
-import iist.training.hrm.dto.NewEmployeeDto;
+import iist.training.hrm.dto.request.NewEmployeeDto;
 import iist.training.hrm.model.Employee;
 import iist.training.hrm.utils.DateFormatUtils;
 

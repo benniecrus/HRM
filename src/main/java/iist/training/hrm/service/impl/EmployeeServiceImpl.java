@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import iist.training.hrm.dto.AccountDto;
 import iist.training.hrm.dto.EmployeeDto;
-import iist.training.hrm.dto.NewEmployeeDto;
+import iist.training.hrm.dto.request.NewEmployeeDto;
 import iist.training.hrm.exception.ProductException;
 import iist.training.hrm.mapping.EmployeeMapping;
 import iist.training.hrm.model.Employee;

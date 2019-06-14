@@ -17,6 +17,9 @@ public class Position {
 	@Column(name = "position_name")
 	private String positionName;
 
+	@Column(name = "position_description")
+	private String description;
+
 	public int getPositionId() {
 		return positionId;
 	}
@@ -31,6 +34,14 @@ public class Position {
 
 	public void setPositionName(String positionName) {
 		this.positionName = positionName;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 }
