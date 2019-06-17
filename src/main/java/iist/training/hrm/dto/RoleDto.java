@@ -4,6 +4,18 @@ public class RoleDto {
 	private int roleId;
 	private String roleName;
 	private String description;
+	
+	
+	public RoleDto() {
+		super();
+	}
+
+	public RoleDto(int roleId, String roleName, String description) {
+		super();
+		this.roleId = roleId;
+		this.roleName = roleName;
+		this.description = description;
+	}
 
 	public int getRoleId() {
 		return roleId;

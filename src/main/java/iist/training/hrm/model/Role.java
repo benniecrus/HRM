@@ -8,8 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "ROLE")
-public class Role {
+@Table(name = "ROLES")
+public class Role implements Comparable<Role> {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int roleId;
@@ -42,6 +42,28 @@ public class Role {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	@Override
+	public int hashCode() {
+		return roleId + roleName.hashCode() + description.hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		Role role = (Role)obj;
+		return this.roleId == role.getRoleId();
+	}
+	
+	@Override
+	public int compareTo(Role o) {
+		if (this.roleId < o.roleId) {
+			return -1;
+		} else if (this.roleId > o.roleId) {
+			return 1;
+		} else {
+			return 0;
+		}
 	}
 
 }

@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import iist.training.hrm.model.AccountStatus;
 import iist.training.hrm.model.Role;
 
 public class AccountDto implements Serializable, UserDetails {
@@ -20,8 +21,10 @@ public class AccountDto implements Serializable, UserDetails {
 
 	@JsonIgnore
 	private String password;
-	
-	private Set<Role> roles;
+
+	private int status;
+
+	private Set<RoleDto> roles;
 
 	private Collection<? extends GrantedAuthority> authorities;
 
@@ -29,11 +32,12 @@ public class AccountDto implements Serializable, UserDetails {
 
 	}
 
-	public AccountDto(int accountId, String username, String password,
+	public AccountDto(int accountId, String username, String password, int status,
 			Collection<? extends GrantedAuthority> authorities) {
 		this.accountId = accountId;
 		this.username = username;
 		this.password = password;
+		this.status = status;
 		this.authorities = authorities;
 	}
 
@@ -92,11 +96,20 @@ public class AccountDto implements Serializable, UserDetails {
 		return true;
 	}
 
-	public Set<Role> getRoles() {
+	public Set<RoleDto> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(Set<Role> roles) {
+	public void setRoles(Set<RoleDto> roles) {
 		this.roles = roles;
 	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
 }

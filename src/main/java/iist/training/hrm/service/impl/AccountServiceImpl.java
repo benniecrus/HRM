@@ -1,6 +1,7 @@
 package iist.training.hrm.service.impl;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +10,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import iist.training.hrm.dto.AccountDto;
+import iist.training.hrm.dto.request.ChangeAccountRoleDto;
+import iist.training.hrm.dto.request.ChangeAccountStatusDto;
 import iist.training.hrm.dto.request.ChangePasswordDto;
 import iist.training.hrm.exception.ProductException;
 import iist.training.hrm.jwt.JwtTokenProvider;
@@ -98,7 +100,7 @@ public class AccountServiceImpl implements AccountService {
 		roles.add(role);
 		account.setRoles(roles);
 		account.setEmployee(employee);
-		account.setStatus(AccountStatus.ACTIVE.ordinal());
+		account.setStatus(AccountStatus.ACTIVE.getStatusCode());
 		account = accountRepository.saveAndFlush(account);
 		
 		if(account == null) {
@@ -146,6 +148,50 @@ public class AccountServiceImpl implements AccountService {
 		if(account == null) {
 			throw new ProductException("Change password is failed");
 		}
+		
+		return AccountMapping.accountMapping(account);
+	}
+
+	@Override
+	public AccountDto updateAccountRole(ChangeAccountRoleDto changeAccountRoleDto) {
+		Optional<Account> optionalAccount = accountRepository.findById(changeAccountRoleDto.getAccountId());
+		if(!optionalAccount.isPresent()) {
+			throw new ProductException("Update account role failed");
+		}
+		
+		Account account = optionalAccount.get();
+		
+		if(changeAccountRoleDto.getRoleId().length == 0) {
+			throw new ProductException("Account has atleast 1 role");
+		}
+		
+		Set<Role> newRoleSet = new HashSet<Role>();
+		
+		for(Integer roleId : changeAccountRoleDto.getRoleId()) {
+			Role role = roleRepository.getOne(roleId);
+			if(role == null) {
+				throw new ProductException("Role with ID = " + roleId + " is not exist!");
+			}
+			newRoleSet.add(role);
+		}
+		account.setRoles(newRoleSet);
+		
+		account = accountRepository.saveAndFlush(account);
+		
+		return AccountMapping.accountMapping(account);
+	}
+	
+	public AccountDto updateAccountStatus(ChangeAccountStatusDto changeAccountStatusDto) {
+		Optional<Account> optionalAccount = accountRepository.findById(changeAccountStatusDto.getAccountId());
+		if(!optionalAccount.isPresent()) {
+			throw new ProductException("Change account status failed");
+		}
+		
+		Account account = optionalAccount.get();
+		
+		account.setStatus(changeAccountStatusDto.getStatusId());
+		
+		account = accountRepository.saveAndFlush(account);
 		
 		return AccountMapping.accountMapping(account);
 	}

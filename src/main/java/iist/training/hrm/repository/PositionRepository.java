@@ -7,5 +7,5 @@ import iist.training.hrm.model.Position;
 
 @Repository
 public interface PositionRepository extends JpaRepository<Position, Integer> {
-
+	Position findByPositionName(String positionName);
 }

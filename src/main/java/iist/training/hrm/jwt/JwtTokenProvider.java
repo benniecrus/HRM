@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import iist.training.hrm.dto.RoleDto;
 import iist.training.hrm.model.Role;
 import iist.training.hrm.service.AccountService;
 import iist.training.hrm.utils.Constants;
@@ -47,7 +48,7 @@ public class JwtTokenProvider {
 		secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
 	}
 
-	public String createToken(String username, Set<Role> roles) {
+	public String createToken(String username, Set<RoleDto> roles) {
 		Claims claims = Jwts.claims().setSubject(username);
 		claims.put("roles", roles);
 		Date now = new Date();

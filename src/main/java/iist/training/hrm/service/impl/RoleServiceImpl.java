@@ -1,5 +1,7 @@
 package iist.training.hrm.service.impl;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,11 +37,13 @@ public class RoleServiceImpl implements RoleService {
 	public RoleDto updateRole(NewRoleDto newRoleDto) {
 		if(newRoleDto.getRoleId() > 0) {
 			
-			Role role = roleRepository.getOne(newRoleDto.getRoleId());
+			Optional<Role> roleOptional = roleRepository.findById(newRoleDto.getRoleId());
 			
-			if(role == null) {
+			if(!roleOptional.isPresent()) {
 				throw new ProductException("Error update role");
 			}
+			
+			Role role = roleOptional.get();
 			
 			role.setRoleName(newRoleDto.getRoleName());
 			role.setDescription(newRoleDto.getRoleDescription());
