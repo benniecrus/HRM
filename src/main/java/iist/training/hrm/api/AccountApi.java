@@ -1,5 +1,7 @@
 package iist.training.hrm.api;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,22 +34,47 @@ public class AccountApi {
 		AccountDto account = accountService.getAccountByUsername(username);
 		return account;
 	}
-	
+
 	@PostMapping("/change-password")
-	public ResponseEntity<ResponseDto<AccountDto>> changePassword(HttpServletRequest request, @RequestBody ChangePasswordDto changePasswordDto) {
+	public ResponseEntity<ResponseDto<AccountDto>> changePassword(HttpServletRequest request,
+			@RequestBody ChangePasswordDto changePasswordDto) {
 		ResponseDto<AccountDto> responseDto = new ResponseDto<AccountDto>();
-		
+
 		if (StringUtils.isEmpty(request.getHeader(Constants.AUTHORIZATION_STRING))) {
 			throw new ProductException("Token must be not null");
 		}
-		
+
 		String token = request.getHeader(Constants.AUTHORIZATION_STRING).replace(Constants.TOKEN_PREFIX, "").trim();
-		
+
 		AccountDto accountDto = accountService.changePassword(changePasswordDto, token);
-		
+
 		responseDto.setContent(accountDto);
 		responseDto.setMessage("Success");
-		
+
 		return new ResponseEntity<ResponseDto<AccountDto>>(responseDto, HttpStatus.OK);
+	}
+
+	@GetMapping("/get-profile")
+	public ResponseEntity<ResponseDto<AccountDto>> getProfile(HttpServletRequest request) {
+		ResponseDto<AccountDto> responseDto = new ResponseDto<AccountDto>();
+
+		if (StringUtils.isEmpty(request.getHeader(Constants.AUTHORIZATION_STRING))) {
+			throw new ProductException("Token must be not null");
+		}
+
+		String token = request.getHeader(Constants.AUTHORIZATION_STRING).replace(Constants.TOKEN_PREFIX, "").trim();
+
+		AccountDto accountDto = accountService.getProfile(token);
+
+		responseDto.setContent(accountDto);
+		responseDto.setMessage("Success");
+
+		return new ResponseEntity<ResponseDto<AccountDto>>(responseDto, HttpStatus.OK);
+	}
+	
+	public ResponseEntity<ResponseDto<List<AccountDto>>> searchAccount(@RequestParam(name = "searchString") String searchString) {
+		ResponseDto<List<AccountDto>> response = new ResponseDto<List<AccountDto>>();
+		
+		return new ResponseEntity<ResponseDto<List<AccountDto>>>(response, HttpStatus.OK);
 	}
 }

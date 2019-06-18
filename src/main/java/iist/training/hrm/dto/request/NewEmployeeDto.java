@@ -5,6 +5,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 public class NewEmployeeDto {
+	private int employeeId;
 	@NotBlank(message = "First name must be not blank!")
 	@Pattern(regexp = "([a-zA-Z]+)", message = "First name must be charaters.")
 	private String firstName;
@@ -87,6 +88,14 @@ public class NewEmployeeDto {
 
 	public void setPositionId(int positionId) {
 		this.positionId = positionId;
+	}
+
+	public int getEmployeeId() {
+		return employeeId;
+	}
+
+	public void setEmployeeId(int employeeId) {
+		this.employeeId = employeeId;
 	}
 
 }

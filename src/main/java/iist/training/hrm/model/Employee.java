@@ -32,6 +32,8 @@ public class Employee {
 	private Date dbo;
 	@Column(name = "country_code")
 	private String countryCode;
+	@Column(name = "status")
+	private int status;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "position_id")
 	private Position position;
@@ -106,5 +108,13 @@ public class Employee {
 
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 }

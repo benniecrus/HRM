@@ -5,6 +5,7 @@ import java.text.ParseException;
 import iist.training.hrm.dto.EmployeeDto;
 import iist.training.hrm.dto.request.NewEmployeeDto;
 import iist.training.hrm.model.Employee;
+import iist.training.hrm.model.EmployeeStatus;
 import iist.training.hrm.utils.DateFormatUtils;
 
 public class EmployeeMapping {
@@ -17,12 +18,12 @@ public class EmployeeMapping {
 		employee.setDbo(DateFormatUtils.convertStringToDate(newEmployeeDto.getDob()));
 		employee.setFirstName(newEmployeeDto.getFirstName());
 		employee.setAddress(newEmployeeDto.getAddress());
-		
+
 		return employee;
 	}
-	
+
 	public static EmployeeDto employeeToEmployeeDto(Employee employee) {
-		
+
 		EmployeeDto employeeDto = new EmployeeDto();
 		employeeDto.setAddress(employee.getAddress());
 		employeeDto.setCountryCode(employee.getCountryCode());
@@ -31,8 +32,10 @@ public class EmployeeMapping {
 		employeeDto.setLastName(employee.getLastName());
 		employeeDto.setPhoneNumber(employee.getPhoneNumber());
 		employeeDto.setSalary(employee.getSalary());
+		employeeDto.setStatus(EmployeeStatus.getEmployeeStatusByStatusCode(employee.getStatus()));
+		employeeDto.setPosition(PositionMapping.positionMapping(employee.getPosition()));
 		
 		return employeeDto;
 	}
-	
+
 }

@@ -16,4 +16,5 @@ public interface AccountService extends UserDetailsService {
 	AccountDto changePassword(ChangePasswordDto changePasswordDto, String token);
 	AccountDto updateAccountRole(ChangeAccountRoleDto changeAccountRoleDto);
 	AccountDto updateAccountStatus(ChangeAccountStatusDto changeAccountStatusDto);
+	AccountDto getProfile(String token);
 }

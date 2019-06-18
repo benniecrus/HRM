@@ -181,6 +181,7 @@ public class AccountServiceImpl implements AccountService {
 		return AccountMapping.accountMapping(account);
 	}
 	
+	@Override
 	public AccountDto updateAccountStatus(ChangeAccountStatusDto changeAccountStatusDto) {
 		Optional<Account> optionalAccount = accountRepository.findById(changeAccountStatusDto.getAccountId());
 		if(!optionalAccount.isPresent()) {
@@ -193,6 +194,14 @@ public class AccountServiceImpl implements AccountService {
 		
 		account = accountRepository.saveAndFlush(account);
 		
+		return AccountMapping.accountMapping(account);
+	}
+
+	@Override
+	public AccountDto getProfile(String token) {
+		Claims claim = jwtTokenProvider.getClaimsFromToken(token);
+		String username = claim.getSubject();
+		Account account = accountRepository.getAccounInfo(username);
 		return AccountMapping.accountMapping(account);
 	}
 	

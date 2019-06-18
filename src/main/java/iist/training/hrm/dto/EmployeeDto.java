@@ -2,6 +2,8 @@ package iist.training.hrm.dto;
 
 import java.util.Date;
 
+import iist.training.hrm.model.EmployeeStatus;
+
 public class EmployeeDto {
 	private String firstName;
 	private String lastName;
@@ -11,6 +13,8 @@ public class EmployeeDto {
 	private String address;
 	private String countryCode;
 	private AccountDto accountDto;
+	private EmployeeStatus status;
+	private PositionDto position;
 
 	public String getFirstName() {
 		return firstName;
@@ -75,5 +79,21 @@ public class EmployeeDto {
 	public void setAccountDto(AccountDto accountDto) {
 		this.accountDto = accountDto;
 	}
-	
+
+	public EmployeeStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(EmployeeStatus status) {
+		this.status = status;
+	}
+
+	public PositionDto getPosition() {
+		return position;
+	}
+
+	public void setPosition(PositionDto position) {
+		this.position = position;
+	}
+
 }
