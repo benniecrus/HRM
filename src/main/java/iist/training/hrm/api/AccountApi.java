@@ -1,7 +1,5 @@
 package iist.training.hrm.api;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,9 +70,4 @@ public class AccountApi {
 		return new ResponseEntity<ResponseDto<AccountDto>>(responseDto, HttpStatus.OK);
 	}
 	
-	public ResponseEntity<ResponseDto<List<AccountDto>>> searchAccount(@RequestParam(name = "searchString") String searchString) {
-		ResponseDto<List<AccountDto>> response = new ResponseDto<List<AccountDto>>();
-		
-		return new ResponseEntity<ResponseDto<List<AccountDto>>>(response, HttpStatus.OK);
-	}
 }

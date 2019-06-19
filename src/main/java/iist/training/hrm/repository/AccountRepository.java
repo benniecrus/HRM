@@ -1,5 +1,7 @@
 package iist.training.hrm.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,4 +16,6 @@ public interface AccountRepository extends JpaRepository<Account, Integer> {
 	
 	@Query("select count(acc.accountId) from Account acc where acc.accountName = :accountName")
 	int countNumberAccountName(@Param("accountName") String accountName);
+	
+	Optional<Account> findByUsername(String username);
 }

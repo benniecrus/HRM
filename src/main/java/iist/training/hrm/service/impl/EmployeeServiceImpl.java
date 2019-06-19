@@ -1,7 +1,9 @@
 package iist.training.hrm.service.impl;
 
 import java.text.ParseException;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,9 +15,11 @@ import iist.training.hrm.dto.request.ChangeEmployeeDto;
 import iist.training.hrm.dto.request.NewEmployeeDto;
 import iist.training.hrm.exception.ProductException;
 import iist.training.hrm.mapping.EmployeeMapping;
+import iist.training.hrm.model.Account;
 import iist.training.hrm.model.Employee;
 import iist.training.hrm.model.EmployeeStatus;
 import iist.training.hrm.model.Position;
+import iist.training.hrm.repository.AccountRepository;
 import iist.training.hrm.repository.EmployeeRepository;
 import iist.training.hrm.service.AccountService;
 import iist.training.hrm.service.EmployeeService;
@@ -34,6 +38,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Autowired
 	private PositionService positionService;
+
+	@Autowired
+	private AccountRepository accountRepository;
 
 	@Override
 	public EmployeeDto addEmployee(NewEmployeeDto newEmployee) throws ParseException {
@@ -106,6 +113,34 @@ public class EmployeeServiceImpl implements EmployeeService {
 		employee.setPosition(position);
 		employeeRepository.saveAndFlush(employee);
 
+		return EmployeeMapping.employeeToEmployeeDto(employee);
+	}
+
+	@Override
+	public List<EmployeeDto> searchEmployee(String searchString) {
+		List<Employee> listEmployee = employeeRepository.searchEmployeeByName(searchString);
+		return listEmployee.stream().map(employee -> EmployeeMapping.employeeToEmployeeDto(employee))
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public List<EmployeeDto> searchEmployeeByPosition(int positionId) {
+		List<Employee> listEmployee = employeeRepository.searchEmployeeByPositionId(positionId);
+		return listEmployee.stream().map(employee -> EmployeeMapping.employeeToEmployeeDto(employee))
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public EmployeeDto searchEmployeeByUserName(String username) {
+		Optional<Account> optionalAccount = accountRepository.findByUsername(username);
+		if (!optionalAccount.isPresent()) {
+			throw new ProductException("Cannot find this username");
+		}
+		
+		Account accont = optionalAccount.get();
+
+		Employee employee = accont.getEmployee();
+		
 		return EmployeeMapping.employeeToEmployeeDto(employee);
 	}
 

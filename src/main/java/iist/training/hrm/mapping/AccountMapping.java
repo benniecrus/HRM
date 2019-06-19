@@ -14,11 +14,14 @@ import iist.training.hrm.utils.Constants;
 public class AccountMapping {
 
 	public static AccountDto buildAccountAuth(Account account) {
-		List<GrantedAuthority> authorities = account.getRoles().stream()
-				.map(role -> new SimpleGrantedAuthority(Constants.ROLE_PREFIX + role.getRoleName()))
-				.collect(Collectors.toList());
-		return new AccountDto(account.getAccountId(), account.getUsername(), account.getPassword(), account.getStatus(),
-				authorities);
+		if (account != null) {
+			List<GrantedAuthority> authorities = account.getRoles().stream()
+					.map(role -> new SimpleGrantedAuthority(Constants.ROLE_PREFIX + role.getRoleName()))
+					.collect(Collectors.toList());
+			return new AccountDto(account.getAccountId(), account.getUsername(), account.getPassword(),
+					account.getStatus(), authorities);
+		}
+		return null;
 	}
 
 	public static AccountDto accountMapping(Account account) {

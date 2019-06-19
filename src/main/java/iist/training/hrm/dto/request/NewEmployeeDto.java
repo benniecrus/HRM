@@ -7,10 +7,10 @@ import javax.validation.constraints.Pattern;
 public class NewEmployeeDto {
 	private int employeeId;
 	@NotBlank(message = "First name must be not blank!")
-	@Pattern(regexp = "([a-zA-Z]+)", message = "First name must be charaters.")
+	@Pattern(regexp = "([a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]+)", message = "First name must be charaters.")
 	private String firstName;
 	@NotBlank(message = "Last name must be not blank!")
-	@Pattern(regexp = "([a-zA-Z\\s]+)", message = "First name must be charaters.")
+	@Pattern(regexp = "([a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s]+)", message = "First name must be charaters.")
 	private String lastName;
 	@NotBlank(message = "Phone number must be not blank!")
 	@Pattern(regexp = "([0-9]{10})", message = "Phone number must be 10 number.")

@@ -1,6 +1,7 @@
 package iist.training.hrm.service;
 
 import java.text.ParseException;
+import java.util.List;
 
 import iist.training.hrm.dto.EmployeeDto;
 import iist.training.hrm.dto.request.ChangeEmployeeDto;
@@ -13,4 +14,7 @@ public interface EmployeeService {
 	EmployeeDto updateEmployeeStatus(ChangeEmployeeDto changeEmployeeStatusDto);
 	EmployeeDto updateEmployeePosition(ChangeEmployeeDto changeEmployeePositionDto);
 	Employee getEmployeeById(int employeeId);
+	List<EmployeeDto> searchEmployee(String searchString);
+	List<EmployeeDto> searchEmployeeByPosition(int positionId);
+	EmployeeDto searchEmployeeByUserName(String username);
 }
