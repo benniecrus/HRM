@@ -1,9 +1,13 @@
 package iist.training.hrm.api;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import iist.training.hrm.dto.request.AuthenticationRequestDto;
 import iist.training.hrm.dto.response.AuthenticationResponseDto;
 import iist.training.hrm.dto.response.ResponseDto;
+import iist.training.hrm.exception.ProductException;
 import iist.training.hrm.service.AuthenticationService;
 import iist.training.hrm.utils.Constants;
 
@@ -37,5 +42,21 @@ public class AuthenticationApi {
 		}
 
 	}
-
+	
+	@GetMapping("/logout")
+	public ResponseEntity<ResponseDto<String>> logout(HttpServletRequest request) {
+		if (StringUtils.isEmpty(request.getHeader(Constants.AUTHORIZATION_STRING))) {
+			throw new ProductException("Token must be not null");
+		}
+		ResponseDto<String> response = new ResponseDto<String>();
+		String token = request.getHeader(Constants.AUTHORIZATION_STRING).replace(Constants.TOKEN_PREFIX, "").trim();
+		boolean result = authenticationService.logout(token);
+		if(!result) {
+			throw new ProductException("Logout failed!");
+		}
+		response.setContent("Log out successfully");
+		response.setMessage("Success");
+		return new ResponseEntity<ResponseDto<String>>(response, HttpStatus.OK);
+	}
+	
 }

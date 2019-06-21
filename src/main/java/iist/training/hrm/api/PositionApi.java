@@ -1,8 +1,11 @@
 package iist.training.hrm.api;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,5 +51,16 @@ public class PositionApi {
 		response.setMessage("Success");
 		
 		return new ResponseEntity<ResponseDto<PositionDto>>(response, HttpStatus.OK);
+	}
+	
+	@GetMapping("/get-all-position")
+	public ResponseEntity<ResponseDto<List<PositionDto>>> getAllPosition() {
+		ResponseDto<List<PositionDto>> response = new ResponseDto<List<PositionDto>>();
+		
+		List<PositionDto> positionDtos = positionService.getAllPosition();
+		response.setContent(positionDtos);
+		response.setMessage("Success");
+		
+		return new ResponseEntity<ResponseDto<List<PositionDto>>>(response, HttpStatus.OK);
 	}
 }

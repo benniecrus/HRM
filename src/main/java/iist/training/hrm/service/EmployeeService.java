@@ -17,4 +17,5 @@ public interface EmployeeService {
 	List<EmployeeDto> searchEmployee(String searchString);
 	List<EmployeeDto> searchEmployeeByPosition(int positionId);
 	EmployeeDto searchEmployeeByUserName(String username);
+	List<EmployeeDto> getAllEmployee();
 }

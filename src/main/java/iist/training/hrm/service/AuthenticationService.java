@@ -4,5 +4,6 @@ import iist.training.hrm.dto.request.AuthenticationRequestDto;
 import iist.training.hrm.dto.response.AuthenticationResponseDto;
 
 public interface AuthenticationService {
-	public AuthenticationResponseDto authenticateUser(AuthenticationRequestDto authenticationRequestDto);
+	AuthenticationResponseDto authenticateUser(AuthenticationRequestDto authenticationRequestDto);
+	boolean logout(String token);
 }

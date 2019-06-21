@@ -9,9 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import iist.training.hrm.model.AccountStatus;
-import iist.training.hrm.model.Role;
-
 public class AccountDto implements Serializable, UserDetails {
 	private static final long serialVersionUID = 1L;
 

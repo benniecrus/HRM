@@ -1,6 +1,7 @@
 package iist.training.hrm.service.impl;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -8,6 +9,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import iist.training.hrm.dto.AccountDto;
 import iist.training.hrm.dto.EmployeeDto;
@@ -136,12 +138,22 @@ public class EmployeeServiceImpl implements EmployeeService {
 		if (!optionalAccount.isPresent()) {
 			throw new ProductException("Cannot find this username");
 		}
-		
+
 		Account accont = optionalAccount.get();
 
 		Employee employee = accont.getEmployee();
-		
+
 		return EmployeeMapping.employeeToEmployeeDto(employee);
+	}
+
+	@Override
+	public List<EmployeeDto> getAllEmployee() {
+		List<Employee> employeeList = employeeRepository.findAll();
+		if (CollectionUtils.isEmpty(employeeList)) {
+			return new ArrayList<EmployeeDto>();
+		}
+		return employeeList.stream().map(employee -> EmployeeMapping.employeeToEmployeeDto(employee))
+				.collect(Collectors.toList());
 	}
 
 }

@@ -46,18 +46,6 @@ public class ManageEmployeeApi {
 		return new ResponseEntity<ResponseDto<EmployeeDto>>(response, HttpStatus.OK);
 	}
 
-	@GetMapping("/list-employee")
-	public ResponseEntity<ResponseDto<List<EmployeeDto>>> getListEmployee(HttpServletRequest request) {
-
-		ResponseDto<List<EmployeeDto>> response = new ResponseDto<List<EmployeeDto>>();
-
-		if (StringUtils.isEmpty(request.getHeader(Constants.AUTHORIZATION_HEADER_NAME))) {
-
-		}
-
-		return new ResponseEntity<ResponseDto<List<EmployeeDto>>>(response, HttpStatus.OK);
-	}
-
 	@PostMapping("/update-employee-information")
 	public ResponseEntity<ResponseDto<EmployeeDto>> updateEmployeeInformation(
 			@RequestBody(required = true) @Valid NewEmployeeDto updateEmployeeDto) throws ParseException {
@@ -95,5 +83,16 @@ public class ManageEmployeeApi {
 		response.setMessage("Success");
 
 		return new ResponseEntity<ResponseDto<EmployeeDto>>(response, HttpStatus.OK);
+	}
+
+	@GetMapping("/get-all-employee")
+	public ResponseEntity<ResponseDto<List<EmployeeDto>>> getAllPosition() {
+		ResponseDto<List<EmployeeDto>> response = new ResponseDto<List<EmployeeDto>>();
+
+		List<EmployeeDto> employeeDtos = employeeService.getAllEmployee();
+		response.setContent(employeeDtos);
+		response.setMessage("Success");
+
+		return new ResponseEntity<ResponseDto<List<EmployeeDto>>>(response, HttpStatus.OK);
 	}
 }

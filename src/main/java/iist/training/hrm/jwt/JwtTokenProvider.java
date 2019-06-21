@@ -18,7 +18,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import iist.training.hrm.dto.RoleDto;
-import iist.training.hrm.model.Role;
+import iist.training.hrm.model.Token;
+import iist.training.hrm.repository.TokenRepository;
 import iist.training.hrm.service.AccountService;
 import iist.training.hrm.utils.Constants;
 import io.jsonwebtoken.Claims;
@@ -42,6 +43,9 @@ public class JwtTokenProvider {
 
 	@Autowired
 	private AccountService accountService;
+	
+	@Autowired
+	private TokenRepository tokenRepository;
 
 	@PostConstruct
 	protected void init() {
@@ -87,7 +91,8 @@ public class JwtTokenProvider {
 	public boolean validateToken(String token) {
 		try {
 			Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
-			if (claims.getBody().getExpiration().before(new Date())) {
+			Token tokenDb = tokenRepository.findByToken(token);
+			if (claims.getBody().getExpiration().before(new Date()) || tokenDb == null || !tokenDb.isActive() ) {
 				return false;
 			}
 			return true;

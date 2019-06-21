@@ -1,10 +1,14 @@
 package iist.training.hrm.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import iist.training.hrm.dto.PositionDto;
 import iist.training.hrm.dto.request.NewPositionDto;
@@ -80,6 +84,16 @@ public class PositionServiceImpl implements PositionService {
 		} else {
 			throw new PositionNotFoundException("Position not found!");
 		}
+	}
+
+	@Override
+	public List<PositionDto> getAllPosition() {
+		List<Position> listPosition = positionRepository.findAll();
+		if(CollectionUtils.isEmpty(listPosition)) {
+			return new ArrayList<PositionDto>();
+		}
+		return listPosition.stream().map(position -> PositionMapping.positionMapping(position))
+				.collect(Collectors.toList());
 	}
 
 }

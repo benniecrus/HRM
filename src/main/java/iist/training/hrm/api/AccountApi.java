@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import iist.training.hrm.dto.AccountDto;
@@ -26,12 +25,6 @@ public class AccountApi {
 
 	@Autowired
 	AccountService accountService;
-
-	@GetMapping("/getaccount")
-	public AccountDto getAccount(@RequestParam(name = "username", required = true) String username) {
-		AccountDto account = accountService.getAccountByUsername(username);
-		return account;
-	}
 
 	@PostMapping("/change-password")
 	public ResponseEntity<ResponseDto<AccountDto>> changePassword(HttpServletRequest request,

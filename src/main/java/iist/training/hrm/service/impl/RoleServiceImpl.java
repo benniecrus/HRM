@@ -1,9 +1,13 @@
 package iist.training.hrm.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import iist.training.hrm.dto.RoleDto;
 import iist.training.hrm.dto.request.NewRoleDto;
@@ -32,33 +36,33 @@ public class RoleServiceImpl implements RoleService {
 		}
 
 	}
-	
+
 	@Override
 	public RoleDto updateRole(NewRoleDto newRoleDto) {
-		if(newRoleDto.getRoleId() > 0) {
-			
+		if (newRoleDto.getRoleId() > 0) {
+
 			Optional<Role> roleOptional = roleRepository.findById(newRoleDto.getRoleId());
-			
-			if(!roleOptional.isPresent()) {
+
+			if (!roleOptional.isPresent()) {
 				throw new ProductException("Error update role");
 			}
-			
+
 			Role role = roleOptional.get();
-			
+
 			role.setRoleName(newRoleDto.getRoleName());
 			role.setDescription(newRoleDto.getRoleDescription());
-			
+
 			role = roleRepository.saveAndFlush(role);
-			
-			if(role == null) {
+
+			if (role == null) {
 				throw new ProductException("Error update role");
 			}
-			
+
 			return RoleMapping.mappingRole(role);
 		} else {
 			throw new ProductException("Role ID must > 0");
 		}
-		
+
 	}
 
 	public boolean checkIsExistRoleName(String roleName) {
@@ -67,6 +71,15 @@ public class RoleServiceImpl implements RoleService {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public List<RoleDto> getAllRole() {
+		List<Role> roleList = roleRepository.findAll();
+		if (CollectionUtils.isEmpty(roleList)) {
+			return new ArrayList<RoleDto>();
+		}
+		return roleList.stream().map(role -> RoleMapping.mappingRole(role)).collect(Collectors.toList());
 	}
 
 }
