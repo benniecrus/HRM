@@ -1,9 +1,13 @@
 package com.iist.hrm.dto.response;
 
+import com.iist.hrm.dto.CategoryDto;
+
 public class ResponseDto<T> {
 	private String message;
 //	private int status;
 	private T content;
+	
+	private CategoryDto dto;
 
 	public String getMessage() {
 		return message;
@@ -29,4 +33,13 @@ public class ResponseDto<T> {
 		this.content = content;
 	}
 
+	public CategoryDto getDto() {
+		return dto;
+	}
+
+	public void setDto(CategoryDto dto) {
+		this.dto = dto;
+	}
+
+	
 }

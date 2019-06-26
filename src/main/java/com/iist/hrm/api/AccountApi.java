@@ -58,6 +58,7 @@ public class AccountApi {
 		AccountDto accountDto = accountService.getProfile(token);
 
 		responseDto.setContent(accountDto);
+		
 		responseDto.setMessage("Success");
 
 		return new ResponseEntity<ResponseDto<AccountDto>>(responseDto, HttpStatus.OK);
