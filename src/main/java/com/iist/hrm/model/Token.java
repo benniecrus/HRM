@@ -68,4 +68,10 @@ public class Token {
 		this.expiredTime = expiredTime;
 	}
 
+	@Override
+	public String toString() {
+		return "Token [tokenId=" + tokenId + ", username=" + username + ", token=" + token + ", expiredTime="
+				+ expiredTime + ", isActive=" + isActive + "]";
+	}
+
 }

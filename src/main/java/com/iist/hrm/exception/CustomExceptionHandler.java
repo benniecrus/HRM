@@ -24,12 +24,6 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<Object>(error, HttpStatus.BAD_REQUEST);
 	}
 	
-	@ExceptionHandler(PositionNotFoundException.class)
-	public ResponseEntity<Object> handlePositionNotFoundException(PositionNotFoundException ex, WebRequest request) {
-		ErrorResponse error = new ErrorResponse(ex.getMessage(), "");
-		return new ResponseEntity<Object>(error, HttpStatus.BAD_REQUEST);
-	}
-	
 	@ExceptionHandler(ProductException.class)
 	public ResponseEntity<Object> handleProduct(ProductException ex, WebRequest request) {
 		ErrorResponse error = new ErrorResponse(ex.getMessage(), "");
