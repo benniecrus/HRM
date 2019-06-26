@@ -25,6 +25,9 @@ public class NewEmployeeDto {
 	@NotBlank(message = "Country must be not blank!")
 	private String countryCode;
 	private int positionId;
+	@NotBlank(message = "Identity card number must be not blank!")
+	@Pattern(regexp = "([0-9]+)", message = "Identity card number must be number.")
+	private String idCardNo;
 
 	public String getFirstName() {
 		return firstName;
@@ -96,6 +99,14 @@ public class NewEmployeeDto {
 
 	public void setEmployeeId(int employeeId) {
 		this.employeeId = employeeId;
+	}
+
+	public String getIdCardNo() {
+		return idCardNo;
+	}
+
+	public void setIdCardNo(String idCardNo) {
+		this.idCardNo = idCardNo;
 	}
 
 }

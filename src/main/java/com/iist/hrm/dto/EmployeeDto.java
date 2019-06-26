@@ -15,6 +15,7 @@ public class EmployeeDto {
 	private AccountDto accountDto;
 	private EmployeeStatus status;
 	private PositionDto position;
+	private String idCardNo;
 
 	public String getFirstName() {
 		return firstName;
@@ -94,6 +95,14 @@ public class EmployeeDto {
 
 	public void setPosition(PositionDto position) {
 		this.position = position;
+	}
+
+	public String getIdCardNo() {
+		return idCardNo;
+	}
+
+	public void setIdCardNo(String idCardNo) {
+		this.idCardNo = idCardNo;
 	}
 
 }

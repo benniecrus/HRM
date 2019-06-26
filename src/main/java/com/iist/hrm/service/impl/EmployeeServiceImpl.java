@@ -69,7 +69,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 		employee.setLastName(updateEmployeeDto.getLastName());
 		employee.setPhoneNumber(updateEmployeeDto.getPhoneNumber());
-		employee.setSalary(updateEmployeeDto.getSalary());
+		employee.setIdCardNo(updateEmployeeDto.getIdCardNo());
 		employee.setCountryCode(updateEmployeeDto.getCountryCode());
 		employee.setDbo(DateFormatUtils.convertStringToDate(updateEmployeeDto.getDob()));
 		employee.setFirstName(updateEmployeeDto.getFirstName());

@@ -24,14 +24,14 @@ public class Employee {
 	private String lastName;
 	@Column(name = "phone_number")
 	private String phoneNumber;
-	@Column(name = "salary")
-	private double salary;
 	@Column(name = "address")
 	private String address;
 	@Column(name = "dob")
 	private Date dbo;
 	@Column(name = "country_code")
 	private String countryCode;
+	@Column(name = "identity_cart_number")
+	private String idCardNo;
 	@Column(name = "status")
 	private int status;
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -60,14 +60,6 @@ public class Employee {
 
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
-	}
-
-	public double getSalary() {
-		return salary;
-	}
-
-	public void setSalary(double salary) {
-		this.salary = salary;
 	}
 
 	public String getAddress() {
@@ -116,6 +108,14 @@ public class Employee {
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+	public String getIdCardNo() {
+		return idCardNo;
+	}
+
+	public void setIdCardNo(String idCardNo) {
+		this.idCardNo = idCardNo;
 	}
 
 }

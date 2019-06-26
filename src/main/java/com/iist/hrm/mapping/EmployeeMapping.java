@@ -14,7 +14,7 @@ public class EmployeeMapping {
 			Employee employee = new Employee();
 			employee.setLastName(newEmployeeDto.getLastName());
 			employee.setPhoneNumber(newEmployeeDto.getPhoneNumber());
-			employee.setSalary(newEmployeeDto.getSalary());
+			employee.setIdCardNo(newEmployeeDto.getIdCardNo());
 			employee.setCountryCode(newEmployeeDto.getCountryCode());
 			employee.setDbo(DateFormatUtils.convertStringToDate(newEmployeeDto.getDob()));
 			employee.setFirstName(newEmployeeDto.getFirstName());
@@ -34,7 +34,7 @@ public class EmployeeMapping {
 			employeeDto.setFirstName(employee.getFirstName());
 			employeeDto.setLastName(employee.getLastName());
 			employeeDto.setPhoneNumber(employee.getPhoneNumber());
-			employeeDto.setSalary(employee.getSalary());
+			employeeDto.setIdCardNo(employee.getIdCardNo());
 			employeeDto.setStatus(EmployeeStatus.getEmployeeStatusByStatusCode(employee.getStatus()));
 			employeeDto.setPosition(PositionMapping.positionMapping(employee.getPosition()));
 			return employeeDto;
