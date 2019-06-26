@@ -63,6 +63,7 @@ CREATE TABLE iist.token(
 	USERNAME NVARCHAR(255),
 	token TEXT,
 	is_active BIT,
+	expired_time DATETIME,
 	CREATE_TIME DATETIME
 );
 
