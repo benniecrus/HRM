@@ -12,7 +12,6 @@ import org.springframework.util.CollectionUtils;
 
 import com.iist.hrm.dto.PositionDto;
 import com.iist.hrm.dto.request.NewPositionDto;
-import com.iist.hrm.exception.PositionNotFoundException;
 import com.iist.hrm.exception.ProductException;
 import com.iist.hrm.mapping.PositionMapping;
 import com.iist.hrm.model.Position;
@@ -82,7 +81,7 @@ public class PositionServiceImpl implements PositionService {
 		if (position.isPresent()) {
 			return position.get();
 		} else {
-			throw new PositionNotFoundException("Position not found!");
+			throw new ProductException("Position not found!");
 		}
 	}
 
