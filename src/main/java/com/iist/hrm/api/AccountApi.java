@@ -1,5 +1,8 @@
 package com.iist.hrm.api;
 
+import java.util.Iterator;
+import java.util.Set;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +16,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.iist.hrm.dto.AccountDto;
+import com.iist.hrm.dto.CategoryDto;
+import com.iist.hrm.dto.RoleDto;
 import com.iist.hrm.dto.request.ChangePasswordDto;
 import com.iist.hrm.dto.response.ResponseDto;
 import com.iist.hrm.exception.ProductException;
 import com.iist.hrm.service.AccountService;
+import com.iist.hrm.service.CategoryService;
 import com.iist.hrm.utils.Constants;
 
 @RestController
@@ -25,6 +31,9 @@ public class AccountApi {
 
 	@Autowired
 	AccountService accountService;
+	
+	@Autowired
+	CategoryService categoryService;
 
 	@PostMapping("/change-password")
 	public ResponseEntity<ResponseDto<AccountDto>> changePassword(HttpServletRequest request,
@@ -56,9 +65,18 @@ public class AccountApi {
 		String token = request.getHeader(Constants.AUTHORIZATION_STRING).replace(Constants.TOKEN_PREFIX, "").trim();
 
 		AccountDto accountDto = accountService.getProfile(token);
+		
+		Set<RoleDto> roles = accountDto.getRoles();
+		String roleName = "";
+		for(Iterator<RoleDto> it = roles.iterator(); it.hasNext();) {
+			RoleDto dto = it.next();
+			roleName = dto.getRoleName();
+			break;
+		}
+		Set<CategoryDto> listDto = categoryService.getCategoryByRole(roleName);
 
 		responseDto.setContent(accountDto);
-		
+		responseDto.setCategories(listDto);
 		responseDto.setMessage("Success");
 
 		return new ResponseEntity<ResponseDto<AccountDto>>(responseDto, HttpStatus.OK);
