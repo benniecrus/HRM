@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.iist.hrm.dto.AccountDto;
 import com.iist.hrm.dto.CategoryDto;
-import com.iist.hrm.dto.CategoryResponseDto;
+import com.iist.hrm.dto.ProfileDto;
 import com.iist.hrm.dto.RoleDto;
 import com.iist.hrm.dto.request.ChangePasswordDto;
 import com.iist.hrm.dto.response.ErrorCodes;
@@ -57,8 +57,8 @@ public class AccountApi {
 	}
 
 	@GetMapping("/get-profile")
-	public ResponseEntity<ResponseDto<CategoryResponseDto>> getProfile(HttpServletRequest request) {
-		ResponseDto<CategoryResponseDto> responseDto = new ResponseDto<CategoryResponseDto>();
+	public ResponseEntity<ResponseDto<ProfileDto>> getProfile(HttpServletRequest request) {
+		ResponseDto<ProfileDto> responseDto = new ResponseDto<ProfileDto>();
 
 		if (StringUtils.isEmpty(request.getHeader(Constants.AUTHORIZATION_STRING))) {
 			throw new ProductException("Token must be not null", ErrorCodes.TOKENERROR.getErrorCode());
@@ -77,14 +77,14 @@ public class AccountApi {
 		}
 		Set<CategoryDto> listDto = categoryService.getCategoryByRole(roleName);
 
-		CategoryResponseDto categoryResponseDto = new CategoryResponseDto();
-		categoryResponseDto.setAccountDto(accountDto);
-		categoryResponseDto.setCategories(listDto);
-		responseDto.setContent(categoryResponseDto);
+		ProfileDto profileDto = new ProfileDto();
+		profileDto.setAccountDto(accountDto);
+		profileDto.setCategories(listDto);
+		responseDto.setContent(profileDto);
 		
 		responseDto.setMessage(Constants.SUCCESS);
 
-		return new ResponseEntity<ResponseDto<CategoryResponseDto>>(responseDto, HttpStatus.OK);
+		return new ResponseEntity<ResponseDto<ProfileDto>>(responseDto, HttpStatus.OK);
 	}
 	
 }

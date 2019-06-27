@@ -3,7 +3,7 @@ package com.iist.hrm.dto;
 import java.io.Serializable;
 import java.util.Set;
 
-public class CategoryResponseDto implements Serializable{
+public class ProfileDto implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
