@@ -82,7 +82,7 @@ public class AccountApi {
 		profileDto.setCategories(listDto);
 		responseDto.setContent(profileDto);
 		
-		responseDto.setMessage("Success");
+		responseDto.setMessage(Constants.SUCCESS);
 
 		return new ResponseEntity<ResponseDto<ProfileDto>>(responseDto, HttpStatus.OK);
 	}
