@@ -15,10 +15,9 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 	@Query("select e from Employee e")
 	List<Employee> getListEmployee();
 
-	@Query("SELECT e FROM Employee e WHERE CONCAT(e.lastName, ' ', e.firstName) like %:searchString% or CONCAT(e.firstName, ' ', e.lastName) like %:searchString%")
-	List<Employee> searchEmployeeByName(@Param("searchString") String searchString);
-	
 	@Query("SELECT e FROM Employee e WHERE e.position.positionId = :positionId")
 	List<Employee> searchEmployeeByPositionId(@Param("positionId") int positionId);
-	
+
+	@Query(value = "SELECT e.* FROM Employee e LEFT JOIN ACCOUNT a ON e.EMPLOYEE_ID = a.employee_id WHERE MATCH(e.last_name, e.FIRST_NAME, e.EMAIL) AGAINST (:ss IN NATURAL LANGUAGE MODE) OR MATCH(a.username) AGAINST (:ss)", nativeQuery = true)
+	List<Employee> searchEmployeeFullText(@Param("ss") String searchString);
 }

@@ -13,6 +13,7 @@ import com.iist.hrm.dto.request.ChangeAccountRoleDto;
 import com.iist.hrm.dto.request.ChangeAccountStatusDto;
 import com.iist.hrm.dto.response.ResponseDto;
 import com.iist.hrm.service.AccountService;
+import com.iist.hrm.utils.Constants;
 
 @RestController
 @RequestMapping("api/admin")
@@ -29,7 +30,7 @@ public class ManangeAccountApi {
 		AccountDto accountDto = accountService.updateAccountRole(changeAccountRoleDto);
 
 		response.setContent(accountDto);
-		response.setMessage("Success");
+		response.setMessage(Constants.SUCCESS);
 
 		return new ResponseEntity<ResponseDto<AccountDto>>(response, HttpStatus.OK);
 	}
@@ -42,7 +43,7 @@ public class ManangeAccountApi {
 		AccountDto accountDto = accountService.updateAccountStatus(changeAccountStatusDto);
 
 		response.setContent(accountDto);
-		response.setMessage("Success");
+		response.setMessage(Constants.SUCCESS);
 
 		return new ResponseEntity<ResponseDto<AccountDto>>(response, HttpStatus.OK);
 	}

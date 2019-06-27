@@ -24,23 +24,23 @@ public class TokenServiceImpl implements TokenService {
 	
 	@Override
 	public void saveToken(String token, String username, Date expiredTime) {
-		logger.debug("Start save new token");
+		logger.info("Start save new token");
 		Token tokenObj = new Token();
 		tokenObj.setToken(token);
 		tokenObj.setUsername(username);
 		tokenObj.setActive(true);
 		tokenObj.setExpiredTime(expiredTime);
-		logger.debug("Save token: " + tokenObj.toString());
+		logger.info("Save token: " + tokenObj.toString());
 		tokenRepository.saveAndFlush(tokenObj);
-		logger.debug("End save new token");
+		logger.info("End save new token");
 	}
 
 	@Override
 	public void cleanExpiredToken() {
-		logger.debug("Start clean expired time token");
+		logger.info("Start clean expired time token");
 		List<Token> tokenList = tokenRepository.findTokenExpiredOrInactive(new Date());
-		logger.debug("Remove {} token ", tokenList.size());
+		logger.info("Remove {} token ", tokenList.size());
 		tokenRepository.deleteAll(tokenList);
-		logger.debug("End clean expired time token");
+		logger.info("End clean expired time token");
 	}
 }

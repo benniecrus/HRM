@@ -19,6 +19,7 @@ public class EmployeeMapping {
 			employee.setDbo(DateFormatUtils.convertStringToDate(newEmployeeDto.getDob()));
 			employee.setFirstName(newEmployeeDto.getFirstName());
 			employee.setAddress(newEmployeeDto.getAddress());
+			employee.setEmail(newEmployeeDto.getEmail());
 			return employee;
 		}
 
@@ -37,6 +38,7 @@ public class EmployeeMapping {
 			employeeDto.setIdCardNo(employee.getIdCardNo());
 			employeeDto.setStatus(EmployeeStatus.getEmployeeStatusByStatusCode(employee.getStatus()));
 			employeeDto.setPosition(PositionMapping.positionMapping(employee.getPosition()));
+			employeeDto.setEmail(employee.getEmail());
 			return employeeDto;
 		}
 

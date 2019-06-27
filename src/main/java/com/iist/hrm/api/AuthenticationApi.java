@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.iist.hrm.dto.request.AuthenticationRequestDto;
 import com.iist.hrm.dto.response.AuthenticationResponseDto;
+import com.iist.hrm.dto.response.ErrorCodes;
 import com.iist.hrm.dto.response.ResponseDto;
 import com.iist.hrm.exception.ProductException;
 import com.iist.hrm.service.AuthenticationService;
@@ -46,16 +47,16 @@ public class AuthenticationApi {
 	@GetMapping("/logout")
 	public ResponseEntity<ResponseDto<String>> logout(HttpServletRequest request) {
 		if (StringUtils.isEmpty(request.getHeader(Constants.AUTHORIZATION_STRING))) {
-			throw new ProductException("Token must be not null");
+			throw new ProductException("Token must be not null", ErrorCodes.TOKENERROR.getErrorCode());
 		}
 		ResponseDto<String> response = new ResponseDto<String>();
 		String token = request.getHeader(Constants.AUTHORIZATION_STRING).replace(Constants.TOKEN_PREFIX, "").trim();
 		boolean result = authenticationService.logout(token);
 		if(!result) {
-			throw new ProductException("Logout failed!");
+			throw new ProductException("Logout failed!", ErrorCodes.TOKENERROR.getErrorCode());
 		}
 		response.setContent("Log out successfully");
-		response.setMessage("Success");
+		response.setMessage(Constants.SUCCESS);
 		return new ResponseEntity<ResponseDto<String>>(response, HttpStatus.OK);
 	}
 	

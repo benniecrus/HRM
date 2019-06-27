@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -22,6 +23,8 @@ public class Employee {
 	private String firstName;
 	@Column(name = "last_name")
 	private String lastName;
+	@Column(name = "email")
+	private String email;
 	@Column(name = "phone_number")
 	private String phoneNumber;
 	@Column(name = "address")
@@ -30,13 +33,16 @@ public class Employee {
 	private Date dbo;
 	@Column(name = "country_code")
 	private String countryCode;
-	@Column(name = "identity_cart_number")
+	@Column(name = "INDENTITY_CARD_NO")
 	private String idCardNo;
 	@Column(name = "status")
 	private int status;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "position_id")
 	private Position position;
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "account_id")
+	private Account account;
 
 	public int getEmployeeId() {
 		return employeeId;
@@ -116,6 +122,22 @@ public class Employee {
 
 	public void setIdCardNo(String idCardNo) {
 		this.idCardNo = idCardNo;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
 }

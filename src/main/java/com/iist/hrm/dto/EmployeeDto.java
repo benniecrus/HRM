@@ -8,7 +8,6 @@ public class EmployeeDto {
 	private String firstName;
 	private String lastName;
 	private String phoneNumber;
-	private double salary;
 	private Date dob;
 	private String address;
 	private String countryCode;
@@ -16,6 +15,7 @@ public class EmployeeDto {
 	private EmployeeStatus status;
 	private PositionDto position;
 	private String idCardNo;
+	private String email;
 
 	public String getFirstName() {
 		return firstName;
@@ -39,14 +39,6 @@ public class EmployeeDto {
 
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
-	}
-
-	public double getSalary() {
-		return salary;
-	}
-
-	public void setSalary(double salary) {
-		this.salary = salary;
 	}
 
 	public Date getDob() {
@@ -103,6 +95,14 @@ public class EmployeeDto {
 
 	public void setIdCardNo(String idCardNo) {
 		this.idCardNo = idCardNo;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 }

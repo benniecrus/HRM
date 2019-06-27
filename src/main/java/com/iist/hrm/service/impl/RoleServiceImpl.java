@@ -5,14 +5,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import com.iist.hrm.dto.RoleDto;
 import com.iist.hrm.dto.request.NewRoleDto;
+import com.iist.hrm.dto.response.ErrorCodes;
 import com.iist.hrm.exception.ProductException;
 import com.iist.hrm.mapping.RoleMapping;
 import com.iist.hrm.model.Role;
@@ -21,8 +20,6 @@ import com.iist.hrm.service.RoleService;
 
 @Service
 public class RoleServiceImpl implements RoleService {
-	
-	private static final Logger logger = LoggerFactory.getLogger(RoleServiceImpl.class);
 	
 	@Autowired
 	private RoleRepository roleRepository;
@@ -36,19 +33,21 @@ public class RoleServiceImpl implements RoleService {
 			role = roleRepository.saveAndFlush(role);
 			return RoleMapping.mappingRole(role);
 		} else {
-			throw new ProductException("Role name has been existed.");
+			throw new ProductException("Role name has been existed.", ErrorCodes.INVALID.getErrorCode());
 		}
 
 	}
 
 	@Override
 	public RoleDto updateRole(NewRoleDto newRoleDto) {
-		if (newRoleDto.getRoleId() > 0) {
+		if (newRoleDto.getRoleId() <= 0) {
+			throw new ProductException("Role ID must > 0", ErrorCodes.INVALID.getErrorCode());
+		}
 
 			Optional<Role> roleOptional = roleRepository.findById(newRoleDto.getRoleId());
 
 			if (!roleOptional.isPresent()) {
-				throw new ProductException("Error update role");
+				throw new ProductException("Cannot found this role", ErrorCodes.NOTFOUND.getErrorCode());
 			}
 
 			Role role = roleOptional.get();
@@ -58,14 +57,7 @@ public class RoleServiceImpl implements RoleService {
 
 			role = roleRepository.saveAndFlush(role);
 
-			if (role == null) {
-				throw new ProductException("Error update role");
-			}
-
 			return RoleMapping.mappingRole(role);
-		} else {
-			throw new ProductException("Role ID must > 0");
-		}
 
 	}
 

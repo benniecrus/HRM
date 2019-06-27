@@ -15,6 +15,7 @@ import com.iist.hrm.dto.AccountDto;
 import com.iist.hrm.dto.request.ChangeAccountRoleDto;
 import com.iist.hrm.dto.request.ChangeAccountStatusDto;
 import com.iist.hrm.dto.request.ChangePasswordDto;
+import com.iist.hrm.dto.response.ErrorCodes;
 import com.iist.hrm.exception.ProductException;
 import com.iist.hrm.jwt.JwtTokenProvider;
 import com.iist.hrm.mapping.AccountMapping;
@@ -23,6 +24,7 @@ import com.iist.hrm.model.AccountStatus;
 import com.iist.hrm.model.Employee;
 import com.iist.hrm.model.Role;
 import com.iist.hrm.repository.AccountRepository;
+import com.iist.hrm.repository.EmployeeRepository;
 import com.iist.hrm.repository.RoleRepository;
 import com.iist.hrm.service.AccountService;
 import com.iist.hrm.utils.CharaterUtils;
@@ -45,6 +47,9 @@ public class AccountServiceImpl implements AccountService {
 	
 	@Autowired
 	private JwtTokenProvider jwtTokenProvider;
+	
+	@Autowired
+	private EmployeeRepository employeeRepository;
 	
 	@Override
 	public AccountDto getAccountByUsername(String username) {
@@ -103,10 +108,8 @@ public class AccountServiceImpl implements AccountService {
 		account.setEmployee(employee);
 		account.setStatus(AccountStatus.ACTIVE.getStatusCode());
 		account = accountRepository.saveAndFlush(account);
-		
-		if(account == null) {
-			throw new ProductException("Generate account failed!");
-		}
+		employee.setAccount(account);
+		employeeRepository.saveAndFlush(employee);
 		
 		return AccountMapping.accountMapping(account);
 	}
@@ -129,26 +132,22 @@ public class AccountServiceImpl implements AccountService {
 		String username = claim.getSubject();
 		
 		if(!changePasswordDto.getUsername().equalsIgnoreCase(username)) {
-			throw new ProductException("Change password is failed");
+			throw new ProductException("Change password is failed", ErrorCodes.INVALID.getErrorCode());
 		}
 		
 		Account account = accountRepository.getAccounInfo(username);
 		
 		if(account == null) {
-			throw new ProductException("Username is not valid");
+			throw new ProductException("Username is not valid", ErrorCodes.INVALID.getErrorCode());
 		}
 		
 		if(!passwordEncoder.matches(changePasswordDto.getOldPassword(), account.getPassword())) {
-			throw new ProductException("Old password is not valid");
+			throw new ProductException("Old password is not valid", ErrorCodes.INVALID.getErrorCode());
 		}
 		
 		account.setPassword(changePasswordDto.getNewPassword());
 		
 		account = accountRepository.saveAndFlush(account);
-		
-		if(account == null) {
-			throw new ProductException("Change password is failed");
-		}
 		
 		return AccountMapping.accountMapping(account);
 	}
@@ -157,13 +156,13 @@ public class AccountServiceImpl implements AccountService {
 	public AccountDto updateAccountRole(ChangeAccountRoleDto changeAccountRoleDto) {
 		Optional<Account> optionalAccount = accountRepository.findById(changeAccountRoleDto.getAccountId());
 		if(!optionalAccount.isPresent()) {
-			throw new ProductException("Update account role failed");
+			throw new ProductException("Not found account", ErrorCodes.NOTFOUND.getErrorCode());
 		}
 		
 		Account account = optionalAccount.get();
 		
 		if(changeAccountRoleDto.getRoleId().length == 0) {
-			throw new ProductException("Account has atleast 1 role");
+			throw new ProductException("Account has atleast 1 role", ErrorCodes.INVALID.getErrorCode());
 		}
 		
 		Set<Role> newRoleSet = new HashSet<Role>();
@@ -171,7 +170,7 @@ public class AccountServiceImpl implements AccountService {
 		for(Integer roleId : changeAccountRoleDto.getRoleId()) {
 			Role role = roleRepository.getOne(roleId);
 			if(role == null) {
-				throw new ProductException("Role with ID = " + roleId + " is not exist!");
+				throw new ProductException("Role with ID = " + roleId + " is not exist!", ErrorCodes.NOTFOUND.getErrorCode());
 			}
 			newRoleSet.add(role);
 		}
@@ -186,7 +185,7 @@ public class AccountServiceImpl implements AccountService {
 	public AccountDto updateAccountStatus(ChangeAccountStatusDto changeAccountStatusDto) {
 		Optional<Account> optionalAccount = accountRepository.findById(changeAccountStatusDto.getAccountId());
 		if(!optionalAccount.isPresent()) {
-			throw new ProductException("Change account status failed");
+			throw new ProductException("Cannot found account", ErrorCodes.NOTFOUND.getErrorCode());
 		}
 		
 		Account account = optionalAccount.get();

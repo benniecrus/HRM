@@ -1,6 +1,7 @@
 package com.iist.hrm.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -30,6 +31,8 @@ public class Account implements Serializable {
 	private String accountName;
 	@Column(name = "status")
 	private int status;
+	@Column(name = "last_password_change")
+	private Date lastPasswordChange;
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "account_role", joinColumns = @JoinColumn(name = "account_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles;
@@ -91,6 +94,14 @@ public class Account implements Serializable {
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+	public Date getLastPasswordChange() {
+		return lastPasswordChange;
+	}
+
+	public void setLastPasswordChange(Date lastPasswordChange) {
+		this.lastPasswordChange = lastPasswordChange;
 	}
 
 }

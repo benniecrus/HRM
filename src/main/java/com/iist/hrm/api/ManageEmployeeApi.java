@@ -6,7 +6,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.apache.tomcat.websocket.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +21,7 @@ import com.iist.hrm.dto.request.ChangeEmployeeDto;
 import com.iist.hrm.dto.request.NewEmployeeDto;
 import com.iist.hrm.dto.response.ResponseDto;
 import com.iist.hrm.service.EmployeeService;
+import com.iist.hrm.utils.Constants;
 
 @RestController
 @RequestMapping("/api/manage")
@@ -35,13 +35,13 @@ public class ManageEmployeeApi {
 			@RequestBody(required = true) @Valid NewEmployeeDto newEmployee) throws ParseException {
 		ResponseDto<EmployeeDto> response = new ResponseDto<EmployeeDto>();
 
-		if (StringUtils.isEmpty(request.getHeader(Constants.AUTHORIZATION_HEADER_NAME))) {
+		if (StringUtils.isEmpty(request.getHeader(Constants.AUTHORIZATION_STRING))) {
 
 		}
 
 		EmployeeDto employeeDto = employeeService.addEmployee(newEmployee);
 		response.setContent(employeeDto);
-		response.setMessage("Success");
+		response.setMessage(Constants.SUCCESS);
 
 		return new ResponseEntity<ResponseDto<EmployeeDto>>(response, HttpStatus.OK);
 	}
@@ -54,7 +54,7 @@ public class ManageEmployeeApi {
 		EmployeeDto employeeDto = employeeService.updateEmployee(updateEmployeeDto);
 
 		response.setContent(employeeDto);
-		response.setMessage("Success");
+		response.setMessage(Constants.SUCCESS);
 
 		return new ResponseEntity<ResponseDto<EmployeeDto>>(response, HttpStatus.OK);
 	}
@@ -67,7 +67,7 @@ public class ManageEmployeeApi {
 		EmployeeDto employeeDto = employeeService.updateEmployeeStatus(changeEmployeeStatusDto);
 
 		response.setContent(employeeDto);
-		response.setMessage("Success");
+		response.setMessage(Constants.SUCCESS);
 
 		return new ResponseEntity<ResponseDto<EmployeeDto>>(response, HttpStatus.OK);
 	}
@@ -80,7 +80,7 @@ public class ManageEmployeeApi {
 		EmployeeDto employeeDto = employeeService.updateEmployeePosition(changeEmployeeStatusDto);
 
 		response.setContent(employeeDto);
-		response.setMessage("Success");
+		response.setMessage(Constants.SUCCESS);
 
 		return new ResponseEntity<ResponseDto<EmployeeDto>>(response, HttpStatus.OK);
 	}
@@ -91,7 +91,7 @@ public class ManageEmployeeApi {
 
 		List<EmployeeDto> employeeDtos = employeeService.getAllEmployee();
 		response.setContent(employeeDtos);
-		response.setMessage("Success");
+		response.setMessage(Constants.SUCCESS);
 
 		return new ResponseEntity<ResponseDto<List<EmployeeDto>>>(response, HttpStatus.OK);
 	}

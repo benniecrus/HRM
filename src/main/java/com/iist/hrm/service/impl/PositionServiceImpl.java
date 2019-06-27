@@ -12,6 +12,7 @@ import org.springframework.util.CollectionUtils;
 
 import com.iist.hrm.dto.PositionDto;
 import com.iist.hrm.dto.request.NewPositionDto;
+import com.iist.hrm.dto.response.ErrorCodes;
 import com.iist.hrm.exception.ProductException;
 import com.iist.hrm.mapping.PositionMapping;
 import com.iist.hrm.model.Position;
@@ -27,11 +28,11 @@ public class PositionServiceImpl implements PositionService {
 
 	public PositionDto addNewPosition(NewPositionDto newPositionDto) {
 		if (newPositionDto == null) {
-			throw new ProductException("new position cannot null");
+			throw new ProductException("new position cannot null", ErrorCodes.INVALID.getErrorCode());
 		}
 
 		if (checkExistPositionName(newPositionDto)) {
-			throw new ProductException("Position name is exist");
+			throw new ProductException("Position name is exist", ErrorCodes.INVALID.getErrorCode());
 		}
 
 		Position position = new Position();
@@ -45,11 +46,11 @@ public class PositionServiceImpl implements PositionService {
 
 	public PositionDto updatePosition(NewPositionDto updatePositionDto) {
 		if (updatePositionDto == null) {
-			throw new ProductException("update position cannot null");
+			throw new ProductException("update position cannot null", ErrorCodes.INVALID.getErrorCode());
 		}
 
 		if (checkExistPositionName(updatePositionDto)) {
-			throw new ProductException("Position name is exist");
+			throw new ProductException("Position name is exist", ErrorCodes.INVALID.getErrorCode());
 		}
 
 		Position position = getPositionById(updatePositionDto.getPositonId());
@@ -81,7 +82,7 @@ public class PositionServiceImpl implements PositionService {
 		if (position.isPresent()) {
 			return position.get();
 		} else {
-			throw new ProductException("Position not found!");
+			throw new ProductException("Position not found!", ErrorCodes.NOTFOUND.getErrorCode());
 		}
 	}
 

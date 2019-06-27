@@ -15,6 +15,7 @@ import com.iist.hrm.dto.RoleDto;
 import com.iist.hrm.dto.request.NewRoleDto;
 import com.iist.hrm.dto.response.ResponseDto;
 import com.iist.hrm.service.RoleService;
+import com.iist.hrm.utils.Constants;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -28,7 +29,7 @@ public class RoleApi {
 		ResponseDto<RoleDto> response = new ResponseDto<RoleDto>();
 		RoleDto roleDto = roleService.addNewRole(newRoleDto);
 		response.setContent(roleDto);
-		response.setMessage("Success");
+		response.setMessage(Constants.SUCCESS);
 		return new ResponseEntity<ResponseDto<RoleDto>>(response, HttpStatus.OK);
 	}
 	
@@ -37,7 +38,7 @@ public class RoleApi {
 		ResponseDto<RoleDto> response = new ResponseDto<RoleDto>();
 		RoleDto roleDto = roleService.updateRole(newRoleDto);
 		response.setContent(roleDto);
-		response.setMessage("Success");
+		response.setMessage(Constants.SUCCESS);
 		return new ResponseEntity<ResponseDto<RoleDto>>(response, HttpStatus.OK);
 	}
 	
@@ -47,7 +48,7 @@ public class RoleApi {
 		
 		List<RoleDto> roleDtos = roleService.getAllRole();
 		response.setContent(roleDtos);
-		response.setMessage("Success");
+		response.setMessage(Constants.SUCCESS);
 		
 		return new ResponseEntity<ResponseDto<List<RoleDto>>>(response, HttpStatus.OK);
 	}

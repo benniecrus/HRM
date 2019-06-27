@@ -15,13 +15,12 @@ import com.iist.hrm.dto.AccountDto;
 import com.iist.hrm.dto.EmployeeDto;
 import com.iist.hrm.dto.request.ChangeEmployeeDto;
 import com.iist.hrm.dto.request.NewEmployeeDto;
+import com.iist.hrm.dto.response.ErrorCodes;
 import com.iist.hrm.exception.ProductException;
 import com.iist.hrm.mapping.EmployeeMapping;
-import com.iist.hrm.model.Account;
 import com.iist.hrm.model.Employee;
 import com.iist.hrm.model.EmployeeStatus;
 import com.iist.hrm.model.Position;
-import com.iist.hrm.repository.AccountRepository;
 import com.iist.hrm.repository.EmployeeRepository;
 import com.iist.hrm.service.AccountService;
 import com.iist.hrm.service.EmployeeService;
@@ -40,9 +39,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Autowired
 	private PositionService positionService;
-
-	@Autowired
-	private AccountRepository accountRepository;
 
 	@Override
 	public EmployeeDto addEmployee(NewEmployeeDto newEmployee) throws ParseException {
@@ -88,7 +84,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 				.getEmployeeStatusByStatusCode(changeEmployeeStatusDto.getStatusId());
 
 		if (employeeStatus == null) {
-			throw new ProductException("Cannot find this employee status");
+			throw new ProductException("Cannot find this employee status", ErrorCodes.NOTFOUND.getErrorCode());
 		}
 
 		employee.setStatus(employeeStatus.getStatusCode());
@@ -101,7 +97,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public Employee getEmployeeById(int employeeId) {
 		Optional<Employee> employeeOptional = employeeRepository.findById(employeeId);
 		if (!employeeOptional.isPresent()) {
-			throw new ProductException("Cannot find this employee");
+			throw new ProductException("Cannot find this employee", ErrorCodes.NOTFOUND.getErrorCode());
 		}
 		return employeeOptional.get();
 	}
@@ -120,7 +116,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public List<EmployeeDto> searchEmployee(String searchString) {
-		List<Employee> listEmployee = employeeRepository.searchEmployeeByName(searchString);
+		List<Employee> listEmployee = employeeRepository.searchEmployeeFullText(searchString);
 		return listEmployee.stream().map(employee -> EmployeeMapping.employeeToEmployeeDto(employee))
 				.collect(Collectors.toList());
 	}
@@ -132,19 +128,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 				.collect(Collectors.toList());
 	}
 
-	@Override
-	public EmployeeDto searchEmployeeByUserName(String username) {
-		Optional<Account> optionalAccount = accountRepository.findByUsername(username);
-		if (!optionalAccount.isPresent()) {
-			throw new ProductException("Cannot find this username");
-		}
-
-		Account accont = optionalAccount.get();
-
-		Employee employee = accont.getEmployee();
-
-		return EmployeeMapping.employeeToEmployeeDto(employee);
-	}
 
 	@Override
 	public List<EmployeeDto> getAllEmployee() {

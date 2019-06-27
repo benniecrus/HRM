@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.iist.hrm.dto.AccountDto;
 import com.iist.hrm.dto.request.ChangePasswordDto;
+import com.iist.hrm.dto.response.ErrorCodes;
 import com.iist.hrm.dto.response.ResponseDto;
 import com.iist.hrm.exception.ProductException;
 import com.iist.hrm.service.AccountService;
@@ -32,7 +33,7 @@ public class AccountApi {
 		ResponseDto<AccountDto> responseDto = new ResponseDto<AccountDto>();
 
 		if (StringUtils.isEmpty(request.getHeader(Constants.AUTHORIZATION_STRING))) {
-			throw new ProductException("Token must be not null");
+			throw new ProductException("Token must be not null", ErrorCodes.TOKENERROR.getErrorCode());
 		}
 
 		String token = request.getHeader(Constants.AUTHORIZATION_STRING).replace(Constants.TOKEN_PREFIX, "").trim();
@@ -40,7 +41,7 @@ public class AccountApi {
 		AccountDto accountDto = accountService.changePassword(changePasswordDto, token);
 
 		responseDto.setContent(accountDto);
-		responseDto.setMessage("Success");
+		responseDto.setMessage(Constants.SUCCESS);
 
 		return new ResponseEntity<ResponseDto<AccountDto>>(responseDto, HttpStatus.OK);
 	}
@@ -50,7 +51,7 @@ public class AccountApi {
 		ResponseDto<AccountDto> responseDto = new ResponseDto<AccountDto>();
 
 		if (StringUtils.isEmpty(request.getHeader(Constants.AUTHORIZATION_STRING))) {
-			throw new ProductException("Token must be not null");
+			throw new ProductException("Token must be not null", ErrorCodes.TOKENERROR.getErrorCode());
 		}
 
 		String token = request.getHeader(Constants.AUTHORIZATION_STRING).replace(Constants.TOKEN_PREFIX, "").trim();
@@ -59,7 +60,7 @@ public class AccountApi {
 
 		responseDto.setContent(accountDto);
 		
-		responseDto.setMessage("Success");
+		responseDto.setMessage(Constants.SUCCESS);
 
 		return new ResponseEntity<ResponseDto<AccountDto>>(responseDto, HttpStatus.OK);
 	}

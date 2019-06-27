@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.iist.hrm.dto.PositionDto;
 import com.iist.hrm.dto.request.NewPositionDto;
+import com.iist.hrm.dto.response.ErrorCodes;
 import com.iist.hrm.dto.response.ResponseDto;
 import com.iist.hrm.exception.ProductException;
 import com.iist.hrm.service.PositionService;
+import com.iist.hrm.utils.Constants;
 
 @RestController
 @RequestMapping("api/admin")
@@ -32,7 +34,7 @@ public class PositionApi {
 		PositionDto positionDto = positionService.addNewPosition(newPositionDto);
 
 		response.setContent(positionDto);
-		response.setMessage("Success");
+		response.setMessage(Constants.SUCCESS);
 
 		return new ResponseEntity<ResponseDto<PositionDto>>(response, HttpStatus.OK);
 	}
@@ -41,14 +43,14 @@ public class PositionApi {
 	public ResponseEntity<ResponseDto<PositionDto>> updatePosition(
 			@RequestBody(required = true) NewPositionDto updatePositionDto) {
 		if (updatePositionDto.getPositonId() <= 0) {
-			throw new ProductException("update position failed!");
+			throw new ProductException("update position failed!", ErrorCodes.INVALID.getErrorCode());
 		}
 		
 		PositionDto positionDto = positionService.updatePosition(updatePositionDto);
 		
 		ResponseDto<PositionDto> response = new ResponseDto<PositionDto>();
 		response.setContent(positionDto);
-		response.setMessage("Success");
+		response.setMessage(Constants.SUCCESS);
 		
 		return new ResponseEntity<ResponseDto<PositionDto>>(response, HttpStatus.OK);
 	}
@@ -59,7 +61,7 @@ public class PositionApi {
 		
 		List<PositionDto> positionDtos = positionService.getAllPosition();
 		response.setContent(positionDtos);
-		response.setMessage("Success");
+		response.setMessage(Constants.SUCCESS);
 		
 		return new ResponseEntity<ResponseDto<List<PositionDto>>>(response, HttpStatus.OK);
 	}
