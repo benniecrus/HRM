@@ -31,6 +31,5 @@ public class CategoryDto {
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
 	}
-	
-	
+
 }
