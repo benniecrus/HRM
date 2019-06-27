@@ -1,10 +1,17 @@
 package com.iist.hrm.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -19,6 +26,12 @@ public class Role implements Comparable<Role> {
 
 	@Column(name = "role_description")
 	private String description;
+
+	@ManyToMany
+	@JoinTable(name = "role_category",
+	joinColumns = { @JoinColumn(name = "role_id") },
+	inverseJoinColumns = { @JoinColumn(name = "category_id") })
+	private Set<Category> categorys = new HashSet<>();
 
 	public int getRoleId() {
 		return roleId;
@@ -70,5 +83,17 @@ public class Role implements Comparable<Role> {
 	public String toString() {
 		return "Role [roleId=" + roleId + ", roleName=" + roleName + ", description=" + description + "]";
 	}
+
+	public Set<Category> getCategorys() {
+		return categorys;
+	}
+
+	public void setCategorys(Set<Category> categorys) {
+		this.categorys = categorys;
+	}
+
+
+	
+	
 	
 }
