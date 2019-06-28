@@ -10,8 +10,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -29,7 +27,7 @@ public class Category {
 	private int categoryId;
 	
 	@Column(name = "parent_id", nullable = false)
-	private int parentId;
+	private Integer parentId;
 	
 	@Column(name = "category_name",nullable = false)
 	private String categoryName;
@@ -47,7 +45,7 @@ public class Category {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createTime;
 	
-	@ManyToMany(mappedBy = "categorys")
+	@ManyToMany(mappedBy = "categorys", fetch = FetchType.LAZY)
     private Set<Role> roles = new HashSet<>();
 	
 	public int getCategoryId() {
