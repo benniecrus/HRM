@@ -1,12 +1,7 @@
 package com.iist.hrm.dto.response;
 
-import java.util.Set;
-
-import com.iist.hrm.dto.CategoryDto;
-
 public class ResponseDto<T> {
 	private String message;
-//	private int status;
 	private T content;
 	
 	public String getMessage() {
@@ -16,14 +11,6 @@ public class ResponseDto<T> {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-
-//	public int getStatus() {
-//		return status;
-//	}
-//
-//	public void setStatus(int status) {
-//		this.status = status;
-//	}
 
 	public T getContent() {
 		return content;

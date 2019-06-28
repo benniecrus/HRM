@@ -18,4 +18,6 @@ public class Constants {
     public static final String DATE_FORMAT_DD_MM_YYYY = "dd/MM/yyyy";
     
     public static final String DEFAULT_PASSWORD = "123456";
+    
+    public static final String TIMEZONE_VIETNAM = "UTC+7:00";
 }
