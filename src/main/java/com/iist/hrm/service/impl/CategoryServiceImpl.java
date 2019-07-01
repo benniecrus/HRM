@@ -7,6 +7,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import com.iist.hrm.dto.CategoryDto;
 import com.iist.hrm.model.Category;
@@ -24,9 +25,9 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public Set<CategoryDto> getCategoryByRole(String roleName) {
 		Role role = roleRespository.findByRoleName(roleName);
-		Set<Category> categories = role.getCategorys();
+		Set<Category> categories = role.getCategories();
 		Set<CategoryDto> listDto = new HashSet<>();
-		if(categories != null) {
+		if(!CollectionUtils.isEmpty(categories)) {
 			for(Category category : categories) {
 				CategoryDto dto = new CategoryDto();
 				BeanUtils.copyProperties(category, dto);
@@ -36,5 +37,5 @@ public class CategoryServiceImpl implements CategoryService {
 		
 		return listDto;
 	}
-
+	
 }

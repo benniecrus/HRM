@@ -3,10 +3,10 @@ package com.iist.hrm.dto;
 public class CategoryDto {
 
 	private int categoryId;
-	
 	private int parentId;
-	
 	private String categoryName;
+	private String categoryIcon;
+	private String categoryLink;
 
 	public int getCategoryId() {
 		return categoryId;
@@ -30,6 +30,22 @@ public class CategoryDto {
 
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
+	}
+
+	public String getCategoryIcon() {
+		return categoryIcon;
+	}
+
+	public void setCategoryIcon(String categoryIcon) {
+		this.categoryIcon = categoryIcon;
+	}
+
+	public String getCategoryLink() {
+		return categoryLink;
+	}
+
+	public void setCategoryLink(String categoryLink) {
+		this.categoryLink = categoryLink;
 	}
 
 }

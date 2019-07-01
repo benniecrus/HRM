@@ -1,6 +1,5 @@
 package com.iist.hrm.model;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,11 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "category")
@@ -25,29 +19,25 @@ public class Category {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int categoryId;
-	
-	@Column(name = "parent_id", nullable = false)
+
+	@Column(name = "PARENT_ID", nullable = false)
 	private Integer parentId;
-	
-	@Column(name = "category_name",nullable = false)
+
+	@Column(name = "CATEGORY_NAME", nullable = false)
 	private String categoryName;
 	
-	@Column(name = "category_description")
+	@Column(name = "CATEGORY_ICON")
+	private String categoryIcon;
+	
+	@Column(name = "CATEGORY_LINK")
+	private String categoryLink;
+
+	@Column(name = "CATEGORY_DESCRIPTION")
 	private String categoryDescription;
-	
-	@Column(name = "update_time")
-	@UpdateTimestamp
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date updateTime;
-	
-	@Column(name = "create_time")
-	@CreationTimestamp
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date createTime;
-	
-	@ManyToMany(mappedBy = "categorys", fetch = FetchType.LAZY)
-    private Set<Role> roles = new HashSet<>();
-	
+
+	@ManyToMany(mappedBy = "categories", fetch = FetchType.LAZY)
+	private Set<Role> roles = new HashSet<>();
+
 	public int getCategoryId() {
 		return categoryId;
 	}
@@ -80,22 +70,6 @@ public class Category {
 		this.categoryDescription = categoryDescription;
 	}
 
-	public Date getUpdateTime() {
-		return updateTime;
-	}
-
-	public void setUpdateTime(Date updateTime) {
-		this.updateTime = updateTime;
-	}
-
-	public Date getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
-
 	public Set<Role> getRoles() {
 		return roles;
 	}
@@ -103,8 +77,25 @@ public class Category {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
-	
-	
-	
-	
+
+	public String getCategoryIcon() {
+		return categoryIcon;
+	}
+
+	public void setCategoryIcon(String categoryIcon) {
+		this.categoryIcon = categoryIcon;
+	}
+
+	public String getCategoryLink() {
+		return categoryLink;
+	}
+
+	public void setCategoryLink(String categoryLink) {
+		this.categoryLink = categoryLink;
+	}
+
+	public void setParentId(Integer parentId) {
+		this.parentId = parentId;
+	}
+
 }

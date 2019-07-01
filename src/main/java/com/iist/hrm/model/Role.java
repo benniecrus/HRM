@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,11 +27,10 @@ public class Role implements Comparable<Role> {
 	@Column(name = "role_description")
 	private String description;
 
-	@ManyToMany
-	@JoinTable(name = "role_category",
-	joinColumns = { @JoinColumn(name = "role_id") },
-	inverseJoinColumns = { @JoinColumn(name = "category_id") })
-	private Set<Category> categorys = new HashSet<>();
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "role_category", joinColumns = { @JoinColumn(name = "role_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "category_id") })
+	private Set<Category> categories = new HashSet<>();
 
 	public int getRoleId() {
 		return roleId;
@@ -55,18 +55,18 @@ public class Role implements Comparable<Role> {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return roleId + roleName.hashCode() + description.hashCode();
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
-		Role role = (Role)obj;
+		Role role = (Role) obj;
 		return this.roleId == role.getRoleId();
 	}
-	
+
 	@Override
 	public int compareTo(Role o) {
 		if (this.roleId < o.roleId) {
@@ -83,16 +83,12 @@ public class Role implements Comparable<Role> {
 		return "Role [roleId=" + roleId + ", roleName=" + roleName + ", description=" + description + "]";
 	}
 
-	public Set<Category> getCategorys() {
-		return categorys;
+	public Set<Category> getCategories() {
+		return categories;
 	}
 
-	public void setCategorys(Set<Category> categorys) {
-		this.categorys = categorys;
+	public void setCategories(Set<Category> categories) {
+		this.categories = categories;
 	}
 
-
-	
-	
-	
 }
