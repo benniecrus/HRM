@@ -1,15 +1,15 @@
 package com.iist.hrm.dto;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
-public class ProfileDto implements Serializable{
+public class ProfileDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private AccountDto accountDto;
-	
-	private Set<CategoryDto> categories ;
+
+	private List<CategoryDto> categories;
 
 	public AccountDto getAccountDto() {
 		return accountDto;
@@ -19,13 +19,12 @@ public class ProfileDto implements Serializable{
 		this.accountDto = accountDto;
 	}
 
-	public Set<CategoryDto> getCategories() {
+	public List<CategoryDto> getCategories() {
 		return categories;
 	}
 
-	public void setCategories(Set<CategoryDto> categories) {
+	public void setCategories(List<CategoryDto> categories) {
 		this.categories = categories;
 	}
-	
-	
+
 }

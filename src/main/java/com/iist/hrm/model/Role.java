@@ -1,7 +1,6 @@
 package com.iist.hrm.model;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,8 +29,13 @@ public class Role implements Comparable<Role> {
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "role_category", joinColumns = { @JoinColumn(name = "role_id") }, inverseJoinColumns = {
 			@JoinColumn(name = "category_id") })
-	private Set<Category> categories = new HashSet<>();
-
+	private List<Category> categories;
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "role_permission", joinColumns = { @JoinColumn(name = "role_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "permission_id") })
+	private List<Permission> permissions;
+	
 	public int getRoleId() {
 		return roleId;
 	}
@@ -54,6 +58,22 @@ public class Role implements Comparable<Role> {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	public List<Category> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(List<Category> categories) {
+		this.categories = categories;
+	}
+
+	public List<Permission> getPermissions() {
+		return permissions;
+	}
+
+	public void setPermissions(List<Permission> permissions) {
+		this.permissions = permissions;
 	}
 
 	@Override
@@ -82,13 +102,4 @@ public class Role implements Comparable<Role> {
 	public String toString() {
 		return "Role [roleId=" + roleId + ", roleName=" + roleName + ", description=" + description + "]";
 	}
-
-	public Set<Category> getCategories() {
-		return categories;
-	}
-
-	public void setCategories(Set<Category> categories) {
-		this.categories = categories;
-	}
-
 }

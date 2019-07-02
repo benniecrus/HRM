@@ -69,7 +69,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/swagger-ui.html")
 		.antMatchers("/configuration/ui")
 		.antMatchers("/swagger-resources/**")
-		.antMatchers("/webjars/**");
+		.antMatchers("/webjars/**")
+		.antMatchers("/h2-console/*");
 	}
 	
 }

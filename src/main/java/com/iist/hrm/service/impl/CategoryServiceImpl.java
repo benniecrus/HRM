@@ -1,7 +1,7 @@
 package com.iist.hrm.service.impl;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +23,10 @@ public class CategoryServiceImpl implements CategoryService {
 	RoleRepository roleRespository;
 	
 	@Override
-	public Set<CategoryDto> getCategoryByRole(String roleName) {
+	public List<CategoryDto> getCategoryByRole(String roleName) {
 		Role role = roleRespository.findByRoleName(roleName);
-		Set<Category> categories = role.getCategories();
-		Set<CategoryDto> listDto = new HashSet<>();
+		List<Category> categories = role.getCategories();
+		List<CategoryDto> listDto = new ArrayList<CategoryDto>();
 		if(!CollectionUtils.isEmpty(categories)) {
 			for(Category category : categories) {
 				CategoryDto dto = new CategoryDto();

@@ -17,7 +17,7 @@ import com.iist.hrm.utils.Constants;
 
 @RestController
 @RequestMapping("api/admin")
-public class ManangeAccountApi {
+public class ManageAccountApi {
 
 	@Autowired
 	AccountService accountService;

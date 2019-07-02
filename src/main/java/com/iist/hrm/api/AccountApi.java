@@ -1,6 +1,7 @@
 package com.iist.hrm.api;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +34,7 @@ public class AccountApi {
 
 	@Autowired
 	AccountService accountService;
-	
+
 	@Autowired
 	CategoryService categoryService;
 
@@ -67,24 +68,24 @@ public class AccountApi {
 		String token = request.getHeader(Constants.AUTHORIZATION_STRING).replace(Constants.TOKEN_PREFIX, "").trim();
 
 		AccountDto accountDto = accountService.getProfile(token);
-		
+
 		Set<RoleDto> roles = accountDto.getRoles();
 		String roleName = "";
-		for(Iterator<RoleDto> it = roles.iterator(); it.hasNext();) {
+		for (Iterator<RoleDto> it = roles.iterator(); it.hasNext();) {
 			RoleDto dto = it.next();
 			roleName = dto.getRoleName();
 			break;
 		}
-		Set<CategoryDto> listDto = categoryService.getCategoryByRole(roleName);
+		List<CategoryDto> listDto = categoryService.getCategoryByRole(roleName);
 
 		ProfileDto profileDto = new ProfileDto();
 		profileDto.setAccountDto(accountDto);
 		profileDto.setCategories(listDto);
 		responseDto.setContent(profileDto);
-		
+
 		responseDto.setMessage(Constants.SUCCESS);
 
 		return new ResponseEntity<ResponseDto<ProfileDto>>(responseDto, HttpStatus.OK);
 	}
-	
+
 }
